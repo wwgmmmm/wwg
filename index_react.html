@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.alicdn.com/css2?family=Alibaba+PuHuiTi+2.0:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS for styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -21,6 +21,9 @@
             colors: {
               background: '#f8f7f4',
               foreground: '#0a0a0a',
+            },
+            cursor: {
+              none: 'none',
             }
           }
         }
@@ -63,69 +66,96 @@
         background-color: #f8f7f4;
         color: #0a0a0a;
         -webkit-font-smoothing: antialiased;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition: background-color 0.5s ease, color 0.5s ease;
         margin: 0;
         padding: 0;
         overflow-x: hidden;
         font-family: 'Inter', 'Alibaba PuHuiTi', sans-serif;
-      }
-      .dark body {
-        background-color: #000000;
-        color: #ffffff;
+        cursor: none; /* Hide default cursor for custom one */
       }
       
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
+      .dark body {
+        background-color: #0a0a0a;
+        color: #ffffff;
+      }
+
+      /* Custom Cursor */
+      .cursor-dot,
+      .cursor-outline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 9999;
+        pointer-events: none;
+      }
+      .cursor-dot {
         width: 8px;
+        height: 8px;
+        background-color: black;
       }
-      ::-webkit-scrollbar-track {
-        background: transparent;
+      .dark .cursor-dot {
+        background-color: white;
       }
-      ::-webkit-scrollbar-thumb {
-        background: #ccc;
-        border-radius: 4px;
+      .cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #aaa;
+      .dark .cursor-outline {
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      
+      body:hover .cursor-outline {
+        opacity: 1;
+      }
+
+      /* Hover States */
+      a:hover ~ .cursor-outline,
+      button:hover ~ .cursor-outline,
+      .project-item:hover ~ .cursor-outline {
+        transform: translate(-50%, -50%) scale(1.5);
+        background-color: rgba(0, 0, 0, 0.1);
+        border-color: transparent;
+      }
+      .dark a:hover ~ .cursor-outline,
+      .dark button:hover ~ .cursor-outline,
+      .dark .project-item:hover ~ .cursor-outline {
+        background-color: rgba(255, 255, 255, 0.1);
       }
 
       /* Modal Animations */
-      .modal-enter {
-        opacity: 0;
-        transform: scale(0.95);
+      @keyframes modalEnter {
+        from { opacity: 0; transform: scale(0.98) translateY(20px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
       }
-      .modal-enter-active {
+      .modal-content {
+        animation: modalEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      
+      /* Project List Item Animation */
+      .project-item {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      .project-list:hover .project-item {
+        opacity: 0.3;
+      }
+      .project-list:hover .project-item:hover {
         opacity: 1;
-        transform: scale(1);
-        transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateX(10px);
       }
-      .modal-exit {
-        opacity: 1;
-        transform: scale(1);
-      }
-      .modal-exit-active {
-        opacity: 0;
-        transform: scale(0.95);
-        transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1), transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .panel-inner p {
-        font-size: 0.95rem;
-        line-height: 1.9;
-        text-align: justify;
+
+      /* Typography adjustments */
+      .zh-text {
+        text-align: left;
         word-break: keep-all;
-        overflow-wrap: anywhere;
-        max-width: 60ch;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      @media (min-width: 768px) {
-        .panel-inner p {
-          font-size: 1.125rem;
-        }
+        overflow-wrap: break-word;
       }
     </style>
 
-    <!-- React UMD + Babel (本地直接打开也能运行 JSX) -->
+    <!-- React -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -134,14 +164,37 @@
     <div id="root"></div>
 
     <script type="text/babel">
-      const { useState, useEffect } = React;
+      const { useState, useEffect, useRef } = React;
+
+      // Inline Icons to avoid CDN dependency issues
+      const ArrowRight = ({ size = 24, strokeWidth = 2, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      );
+      
+      const X = ({ size = 24, strokeWidth = 2, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 6 6 18"/><path d="m6 6 18 18"/></svg>
+      );
+      
+      const Moon = ({ size = 24, strokeWidth = 2, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      );
+      
+      const Sun = ({ size = 24, strokeWidth = 2, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      );
+      
+      const ArrowUpRight = ({ size = 24, strokeWidth = 2, className = "" }) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+      );
 
       const projects = [
         {
-          id: 'project1',
+          id: '01',
           title: 'LOTUS TRACK DAY',
           subtitle: '路特斯赛道挑战日',
-          category: 'Motorsports / Track Event / 2024',
+          year: '2024',
+          category: 'Motorsports',
+          tags: ['Visual Identity', 'Environmental', 'Event'],
           cover: 'assets/project1/cover.jpg',
           description: '为“路特斯赛道挑战日”打造全感官视觉方案。设计灵感源自空气动力学曲线与极致的赛道线条，通过强对比的色彩组合与极具动感的版式设计，传递品牌核心精神。视觉覆盖从Pit房改造到赛道围挡，确保在极速环境下依然具备极强的视觉冲击力。',
           role: 'Visual Identity / Environmental',
@@ -153,10 +206,12 @@
           ]
         },
         {
-          id: 'project2',
+          id: '02',
           title: 'VOLVO C40 PRESS LAUNCH',
           subtitle: '沃尔沃C40媒体新闻发布会',
-          category: 'Product Launch / Press Event / 2023',
+          year: '2023',
+          category: 'Product Launch',
+          tags: ['Art Direction', 'Stage Visuals', 'Keynote'],
           cover: 'assets/project2/cover.jpg',
           description: '为沃尔沃首款纯电轿跑SUV C40打造新闻发布会视觉系统。围绕“极光”与“北欧峡湾”的自然美学，利用光影变幻模拟北欧自然景观，强调品牌的可持续发展理念与纯电身份。整体设计遵循极致的极简主义风格，营造出静谧而充满力量的活动氛围。',
           role: 'Art Direction / Stage Visuals',
@@ -171,11 +226,43 @@
         }
       ];
 
+      function CustomCursor() {
+        const cursorDotRef = useRef(null);
+        const cursorOutlineRef = useRef(null);
+
+        useEffect(() => {
+          const moveCursor = (e) => {
+            const { clientX, clientY } = e;
+            if (cursorDotRef.current) {
+              cursorDotRef.current.style.left = `${clientX}px`;
+              cursorDotRef.current.style.top = `${clientY}px`;
+            }
+            if (cursorOutlineRef.current) {
+              cursorOutlineRef.current.animate({
+                left: `${clientX}px`,
+                top: `${clientY}px`
+              }, { duration: 500, fill: "forwards" });
+            }
+          };
+          window.addEventListener('mousemove', moveCursor);
+          return () => window.removeEventListener('mousemove', moveCursor);
+        }, []);
+
+        return (
+          <>
+            <div ref={cursorDotRef} className="cursor-dot hidden md:block" />
+            <div ref={cursorOutlineRef} className="cursor-outline hidden md:block" />
+          </>
+        );
+      }
+
       function App() {
         const [darkMode, setDarkMode] = useState(false);
         const [selectedProject, setSelectedProject] = useState(null);
+        const [hoveredProject, setHoveredProject] = useState(null);
 
         useEffect(() => {
+          // Check system preference
           if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             setDarkMode(true);
           }
@@ -192,163 +279,205 @@
         const toggleTheme = () => setDarkMode(!darkMode);
 
         return (
-          <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-black text-white' : 'bg-[#f8f7f4] text-[#0a0a0a]'}`}>
+          <div className={`min-h-screen flex flex-col ${darkMode ? 'text-white' : 'text-zinc-900'}`}>
+            <CustomCursor />
             
-            {/* Navigation */}
-            <nav className="fixed top-0 left-0 w-full p-6 md:p-8 flex justify-between items-center z-50 mix-blend-difference text-white">
-              <div className="font-bold text-xl tracking-tighter uppercase">Waylon / Design.</div>
-              <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/10 transition text-xs uppercase tracking-widest">
-                {darkMode ? 'Light' : 'Dark'}
-              </button>
-            </nav>
-
-            {/* Hero Section */}
-            <header className="px-6 md:px-8 pt-40 pb-20 md:pb-32 min-h-[80vh] flex flex-col justify-end">
-              <h1 className="text-[15vw] leading-[0.8] font-black uppercase tracking-tighter mb-12">
-                Graphic<br />Designer
-              </h1>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
-                <p className="text-lg md:text-xl max-w-md leading-relaxed opacity-80 font-light">
-                  专注发布会、车展及各类商业会展的视觉设计。<br />
-                  将空间叙事与视觉逻辑深度融合，创造无可替代的感官体验。
-                </p>
-                <div className="md:text-right">
-                  <div className="text-sm font-bold uppercase tracking-widest opacity-60 mb-2">Portfolio 2016 — 2026</div>
-                  <div className="flex gap-4 md:justify-end">
-                    <a href="mailto:wwgmmmm@gmail.com" className="hover:underline">Email</a>
-                    <a href="#contact" className="hover:underline">Contact</a>
-                  </div>
+            {/* Header */}
+            <header className="fixed top-0 w-full p-6 md:p-12 flex justify-between items-start z-40 pointer-events-none mix-blend-difference text-white">
+              <div className="pointer-events-auto">
+                <h1 className="text-xl font-bold tracking-tighter uppercase leading-none">
+                  Waylon<br/>Design.
+                </h1>
+                <div className="mt-4 text-[10px] uppercase tracking-widest opacity-60 font-medium">
+                  Graphic Designer<br/>
+                  Based in China
                 </div>
+              </div>
+
+              <div className="text-right pointer-events-auto flex flex-col items-end gap-6">
+                 <button onClick={toggleTheme} className="hover:opacity-50 transition">
+                   {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+                 </button>
+                 <div className="text-[10px] uppercase tracking-widest font-bold">
+                   [ 2016 — 2026 ]
+                 </div>
               </div>
             </header>
 
-            {/* Projects Grid */}
-            <section className="px-6 md:px-8 py-20">
-              <div className="grid grid-cols-1 gap-y-32">
-                {projects.map((project, index) => (
-                  <div key={project.id} className="group cursor-pointer" onClick={() => setSelectedProject(project)}>
-                    <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-gray-100 dark:bg-zinc-900 mb-8">
-                      <img 
-                        src={project.cover} 
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        onError={(e) => {
-                          e.target.onerror = null; 
-                          e.target.src = `https://placehold.co/1200x800/1a1a1a/FFF?text=${project.title}`;
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
-                      <div className="absolute top-6 right-6 bg-white text-black px-3 py-1 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                        View Project
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4 border-b border-gray-200 dark:border-zinc-800 pb-8">
-                      <div>
-                        <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-2">
-                          {project.title}
-                        </h2>
-                        <p className="text-lg text-gray-500 dark:text-zinc-400">{project.subtitle}</p>
-                      </div>
-                      <div className="text-sm font-mono uppercase tracking-widest opacity-60">
-                        {project.category}
-                      </div>
-                    </div>
-                  </div>
-                ))}
+            {/* Main Content - List Layout */}
+            <main className="flex-1 flex flex-col justify-center px-6 md:px-12 py-32 md:py-0 min-h-screen relative z-10">
+              
+              {/* Background Image Preview on Hover */}
+              <div className="fixed inset-0 z-[-1] transition-opacity duration-700 pointer-events-none" style={{ opacity: hoveredProject ? 0.15 : 0 }}>
+                 {hoveredProject && (
+                   <img 
+                     src={hoveredProject.cover} 
+                     className="w-full h-full object-cover grayscale"
+                     alt="Background Preview"
+                   />
+                 )}
               </div>
-            </section>
 
-            {/* About / Contact */}
-            <section id="contact" className="px-6 md:px-8 py-32 bg-gray-100 dark:bg-zinc-900 mt-20">
-              <div className="max-w-4xl mx-auto">
-                <h2 className="text-[12vw] font-black uppercase tracking-tighter leading-none mb-16">
-                  Let's<br />Connect
-                </h2>
+              <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                  <div>
-                    <h3 className="text-sm font-bold uppercase tracking-widest mb-6 opacity-50">Contact Info</h3>
-                    <ul className="space-y-4 text-xl md:text-2xl font-medium">
-                      <li>
-                        <a href="mailto:wwgmmmm@gmail.com" className="flex items-center gap-3 hover:opacity-60 transition">
-                          <span className="inline-block w-6 h-6 rounded-full bg-black/20 dark:bg-white/20 mr-2" /> wwgmmmm@gmail.com
-                        </a>
-                      </li>
-                      <li className="flex items-center gap-3">
-                        <span className="inline-block w-6 h-6 rounded-full bg-black/20 dark:bg-white/20 mr-2" /> 131 3808 8381
-                      </li>
-                    </ul>
+                {/* Left: Intro */}
+                <div className="lg:col-span-5 space-y-8 pointer-events-none">
+                  <div className="hidden lg:block">
+                     <h2 className="text-[8vw] leading-[0.8] font-black uppercase tracking-tighter opacity-10 select-none">
+                       Port<br/>folio
+                     </h2>
                   </div>
-                  
-                  <div>
-                    <h3 className="text-sm font-bold uppercase tracking-widest mb-6 opacity-50">Socials</h3>
-                    <div className="flex gap-6">
-                      <a href="#" className="px-4 py-2 bg-white dark:bg-zinc-800 rounded-full hover:scale-110 transition text-sm">Instagram</a>
-                      <a href="#" className="px-4 py-2 bg-white dark:bg-zinc-800 rounded-full hover:scale-110 transition text-sm">Dribbble</a>
+                  <div className="pointer-events-auto">
+                    <p className="text-sm md:text-base leading-relaxed max-w-md opacity-80 zh-text">
+                      专注发布会、车展及各类商业会展的视觉设计。<br/>
+                      致力于将空间叙事与视觉逻辑深度融合，通过精准的设计语言为每一场活动创造无可替代的感官体验。
+                    </p>
+                    <div className="mt-8 flex gap-6 text-xs uppercase tracking-widest font-bold">
+                       <a href="mailto:wwgmmmm@gmail.com" className="hover:underline flex items-center gap-1">
+                         Email <ArrowUpRight size={12} />
+                       </a>
+                       <a href="#contact" className="hover:underline flex items-center gap-1">
+                         Contact <ArrowUpRight size={12} />
+                       </a>
                     </div>
                   </div>
                 </div>
-              </div>
-            </section>
 
-            <footer className="p-8 text-center text-xs uppercase tracking-widest opacity-40">
-              &copy; 2021 - 2026 Waylon Graphic Design Studio
+                {/* Right: Project List */}
+                <div className="lg:col-span-7 project-list">
+                  {projects.map((project) => (
+                    <div 
+                      key={project.id}
+                      className="project-item group relative py-8 border-b border-zinc-200 dark:border-zinc-800 cursor-pointer flex items-baseline gap-4 md:gap-8"
+                      onMouseEnter={() => setHoveredProject(project)}
+                      onMouseLeave={() => setHoveredProject(null)}
+                      onClick={() => setSelectedProject(project)}
+                    >
+                      <span className="text-xs font-mono opacity-40 group-hover:text-red-500 transition-colors">
+                        {project.id}
+                      </span>
+                      <div className="flex-1">
+                        <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300">
+                          {project.title}
+                        </h3>
+                        <div className="flex flex-wrap gap-3 mt-3 opacity-50 text-[10px] uppercase tracking-widest">
+                           <span>{project.year}</span>
+                           <span>/</span>
+                           <span>{project.category}</span>
+                        </div>
+                      </div>
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
+                        <ArrowRight size={32} strokeWidth={1} />
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {/* More items placeholder */}
+                  <div className="py-8 border-b border-zinc-200 dark:border-zinc-800 opacity-30 flex items-baseline gap-4 md:gap-8">
+                    <span className="text-xs font-mono">03</span>
+                    <div className="text-2xl md:text-4xl font-bold uppercase tracking-tight">Coming Soon</div>
+                  </div>
+                </div>
+
+              </div>
+            </main>
+
+            {/* Footer */}
+            <footer className="fixed bottom-0 w-full p-6 md:p-8 flex justify-between items-end text-[10px] uppercase tracking-widest opacity-40 pointer-events-none z-40">
+               <div>SCROLL TO EXPLORE</div>
+               <div>&copy; WAYLON 2026</div>
             </footer>
 
             {/* Project Modal */}
             {selectedProject && (
-              <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-8">
+              <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 md:p-4">
                 <div 
-                  className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+                  className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
                   onClick={() => setSelectedProject(null)}
                 />
                 
-                <div className="relative bg-white dark:bg-[#0f0f0f] w-full max-w-5xl h-[90vh] md:h-auto md:max-h-[90vh] overflow-y-auto rounded-t-2xl md:rounded-2xl shadow-2xl flex flex-col animate-[modal-enter_0.3s_ease-out]">
+                <div className="modal-content relative bg-[#f8f7f4] dark:bg-[#0f0f0f] w-full max-w-6xl h-[90vh] md:h-[90vh] overflow-hidden rounded-t-2xl md:rounded-2xl shadow-2xl flex flex-col">
                   
-                  <button 
-                    onClick={() => setSelectedProject(null)}
-                    className="absolute top-6 right-6 p-2 bg-gray-100 dark:bg-zinc-800 rounded-full hover:rotate-90 transition z-10 text-xs uppercase tracking-widest"
-                  >
-                    Close
-                  </button>
+                  {/* Modal Header */}
+                  <div className="flex justify-between items-center p-6 md:p-8 border-b border-zinc-200 dark:border-zinc-800 bg-[#f8f7f4] dark:bg-[#0f0f0f] z-10 sticky top-0">
+                    <div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest opacity-50 mb-1">Selected Work</div>
+                      <h2 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{selectedProject.title}</h2>
+                    </div>
+                    <button 
+                      onClick={() => setSelectedProject(null)}
+                      className="p-3 rounded-full bg-zinc-200 dark:bg-zinc-800 hover:rotate-90 transition"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
 
-                  <div className="panel-inner p-8 md:p-16">
-                    <div className="mb-12">
-                      <div className="text-xs font-bold uppercase tracking-[0.2em] opacity-50 mb-4">{selectedProject.category}</div>
-                      <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tight mb-2">{selectedProject.title}</h2>
-                      <p className="text-xl md:text-2xl opacity-60 font-light">{selectedProject.subtitle}</p>
+                  {/* Modal Body */}
+                  <div className="flex-1 overflow-y-auto p-0">
+                    {/* Hero Image */}
+                    <div className="w-full aspect-video md:aspect-[21/9]">
+                       <img 
+                         src={selectedProject.cover} 
+                         className="w-full h-full object-cover" 
+                         alt={selectedProject.title} 
+                       />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-                      <div className="md:col-span-2">
-                        <h3 className="text-xs font-bold uppercase tracking-widest mb-4 opacity-50">Project Brief</h3>
-                        <p className="text-lg leading-relaxed text-justify opacity-90">{selectedProject.description}</p>
-                      </div>
-                      <div className="space-y-8">
-                        <div>
-                          <h3 className="text-xs font-bold uppercase tracking-widest mb-2 opacity-50">Role</h3>
-                          <p className="font-medium">{selectedProject.role}</p>
-                        </div>
-                        <div>
-                          <h3 className="text-xs font-bold uppercase tracking-widest mb-2 opacity-50">Concept</h3>
-                          <p className="font-medium">{selectedProject.concept}</p>
-                        </div>
-                      </div>
-                    </div>
+                    <div className="p-6 md:p-12 lg:p-16 max-w-5xl mx-auto">
+                       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24 mb-20">
+                          <div className="md:col-span-2 space-y-6">
+                             <h3 className="text-xs font-bold uppercase tracking-widest opacity-50">Project Brief</h3>
+                             <p className="text-lg md:text-xl leading-relaxed opacity-90 zh-text font-light">
+                               {selectedProject.description}
+                             </p>
+                          </div>
+                          <div className="space-y-8 text-sm">
+                             <div>
+                               <h3 className="text-xs font-bold uppercase tracking-widest opacity-50 mb-2">Role</h3>
+                               <p>{selectedProject.role}</p>
+                             </div>
+                             <div>
+                               <h3 className="text-xs font-bold uppercase tracking-widest opacity-50 mb-2">Concept</h3>
+                               <p>{selectedProject.concept}</p>
+                             </div>
+                             <div>
+                               <h3 className="text-xs font-bold uppercase tracking-widest opacity-50 mb-2">Year</h3>
+                               <p>{selectedProject.year}</p>
+                             </div>
+                          </div>
+                       </div>
 
-                    <div className="space-y-8">
-                      {selectedProject.details.map((img, idx) => (
-                        <img 
-                          key={idx}
-                          src={img} 
-                          alt="Detail" 
-                          className="w-full h-auto rounded-sm bg-zinc-100 dark:bg-zinc-900"
-                          onError={(e) => e.target.style.display = 'none'}
-                        />
-                      ))}
+                       <div className="space-y-8 md:space-y-16">
+                          {selectedProject.details.map((img, idx) => (
+                            <img 
+                              key={idx}
+                              src={img}
+                              className="w-full h-auto shadow-lg rounded-sm"
+                              alt="Detail"
+                              onError={(e) => e.target.style.display = 'none'}
+                            />
+                          ))}
+                       </div>
+
+                       {/* Next Project (Simple Loop) */}
+                       <div className="mt-32 pt-16 border-t border-zinc-200 dark:border-zinc-800 text-center">
+                          <div className="text-xs uppercase tracking-widest opacity-50 mb-4">Next Project</div>
+                          <button 
+                            className="text-3xl md:text-5xl font-bold uppercase hover:opacity-50 transition"
+                            onClick={() => {
+                               const currentIndex = projects.findIndex(p => p.id === selectedProject.id);
+                               const nextIndex = (currentIndex + 1) % projects.length;
+                               setSelectedProject(projects[nextIndex]);
+                               // Scroll to top of modal
+                               document.querySelector('.modal-content > .flex-1').scrollTop = 0;
+                            }}
+                          >
+                            {projects[(projects.findIndex(p => p.id === selectedProject.id) + 1) % projects.length].title}
+                          </button>
+                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
             )}

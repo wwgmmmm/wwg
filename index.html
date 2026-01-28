@@ -1,0 +1,205 @@
+{\rtf1\ansi\ansicpg936\cocoartf2865
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset134 PingFangSC-Regular;}
+{\colortbl;\red255\green255\blue255;\red109\green109\blue109;\red236\green241\blue247;\red251\green0\blue7;
+\red0\green0\blue0;\red42\green42\blue42;\red107\green0\blue1;\red0\green0\blue255;\red111\green14\blue195;
+\red9\green60\blue148;\red24\green112\blue43;\red19\green118\blue70;\red77\green80\blue85;\red14\green110\blue109;
+\red164\green69\blue11;}
+{\*\expandedcolortbl;;\cssrgb\c50196\c50196\c50196;\cssrgb\c94118\c95686\c97647;\cssrgb\c100000\c0\c0;
+\cssrgb\c0\c0\c0;\cssrgb\c21961\c21961\c21961;\cssrgb\c50196\c0\c0;\cssrgb\c0\c0\c100000;\cssrgb\c51765\c18824\c80784;
+\cssrgb\c1569\c31765\c64706;\cssrgb\c9412\c50196\c21961;\cssrgb\c3529\c52549\c34510;\cssrgb\c37255\c38824\c40784;\cssrgb\c0\c50196\c50196;
+\cssrgb\c70980\c34902\c3137;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+<!DOCTYPE\cf4  html\cf2 >\cf0 \cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 <\cf7 html\cf0  \cf4 lang\cf6 =\cf8 "zh-CN"\cf6 >\cf0 \cb1 \
+\cf6 \cb3 <\cf7 head\cf6 >\cf0 \cb1 \
+\cb3     \cf6 <\cf7 meta\cf0  \cf4 charset\cf6 =\cf8 "UTF-8"\cf6 >\cf0 \cb1 \
+\cb3     \cf6 <\cf7 meta\cf0  \cf4 name\cf6 =\cf8 "viewport"\cf0  \cf4 content\cf6 =\cf8 "width=device-width, initial-scale=1.0"\cf6 >\cf0 \cb1 \
+\cb3     \cf6 <\cf7 title\cf6 >\cf0 Your Name | Portfolio\cf6 </\cf7 title\cf6 >\cf0 \cb1 \
+\cb3     \cf6 <\cf7 script\cf0  \cf4 src\cf6 =\cf8 "https://cdn.tailwindcss.com"\cf6 ></\cf7 script\cf6 >\cf0 \cb1 \
+\cb3     \cf6 <\cf7 link\cf0  \cf4 href\cf6 =\cf8 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"\cf0  \cf4 rel\cf6 =\cf8 "stylesheet"\cf6 >\cf0 \cb1 \
+\cb3     \cf6 <\cf7 style\cf6 >\cf0 \cb1 \
+\cb3         \cf9 @import\cf0  \cf10 url\cf0 (\cf11 'https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;900&display=swap'\cf0 );\cb1 \
+\cb3         \cb1 \
+\cb3         \cf7 body\cf0  \{\cb1 \
+\cb3             \cf4 font-family:\cf0  \cf11 'Inter'\cf0 , \cf10 sans-serif\cf0 ;\cb1 \
+\cb3             \cf4 background-color:\cf0  \cf10 #0a0a0a\cf0 ;\cb1 \
+\cb3             \cf4 color:\cf0  \cf10 #ffffff\cf0 ;\cb1 \
+\cb3             \cf4 overflow-x:\cf0  \cf10 hidden\cf0 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf7 .hero-title\cf0  \{\cb1 \
+\cb3             \cf4 font-family:\cf0  \cf11 'Syncopate'\cf0 , \cf10 sans-serif\cf0 ;\cb1 \
+\cb3             \cf4 text-transform:\cf0  \cf10 uppercase\cf0 ;\cb1 \
+\cb3             \cf4 letter-spacing:\cf0  \cf12 -0.05em\cf0 ;\cb1 \
+\cb3             \cf4 line-height:\cf0  \cf12 0.8\cf0 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf13 /* 
+\f1 \'c4\'a3\'b7\'c2\'b2\'ce\'bf\'bc\'cd\'f8\'d5\'be\'b5\'c4\'cb\'b3\'bb\'ac\'b9\'f6\'b6\'af
+\f0  */\cf0 \cb1 \
+\cb3         \cf7 .reveal\cf0  \{\cb1 \
+\cb3             \cf4 opacity:\cf0  \cf12 0\cf0 ;\cb1 \
+\cb3             \cf4 transform:\cf0  \cf10 translateY(\cf12 30px\cf10 )\cf0 ;\cb1 \
+\cb3             \cf4 transition:\cf0  \cf10 all\cf0  \cf12 0.8s\cf0  \cf10 ease-out\cf0 ;\cb1 \
+\cb3         \}\cb1 \
+\cb3         \cf7 .reveal.active\cf0  \{\cb1 \
+\cb3             \cf4 opacity:\cf0  \cf12 1\cf0 ;\cb1 \
+\cb3             \cf4 transform:\cf0  \cf10 translateY(\cf12 0\cf10 )\cf0 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf13 /* 
+\f1 \'d7\'f7\'c6\'b7\'bf\'a8\'c6\'ac\'d0\'fc\'cd\'a3\'d0\'a7\'b9\'fb
+\f0  */\cf0 \cb1 \
+\cb3         \cf7 .work-item\cf0  \cf7 img\cf0  \{\cb1 \
+\cb3             \cf4 transition:\cf0  \cf10 transform\cf0  \cf12 0.6s\cf0  \cf10 cubic-bezier(\cf12 0.16\cf0 , \cf12 1\cf0 , \cf12 0.3\cf0 , \cf12 1\cf10 )\cf0 ;\cb1 \
+\cb3         \}\cb1 \
+\cb3         \cf7 .work-item:hover\cf0  \cf7 img\cf0  \{\cb1 \
+\cb3             \cf4 transform:\cf0  \cf10 scale(\cf12 1.05\cf10 )\cf0 ;\cb1 \
+\cb3         \}\cb1 \
+\cb3     \cf6 </\cf7 style\cf6 >\cf0 \cb1 \
+\cf6 \cb3 </\cf7 head\cf6 >\cf0 \cb1 \
+\cf6 \cb3 <\cf7 body\cf6 >\cf0 \cb1 \
+\
+\cb3     \cf13 <!-- 
+\f1 \'d7\'d4\'b6\'a8\'d2\'e5\'b9\'e2\'b1\'ea
+\f0  (
+\f1 \'c9\'e8\'bc\'c6\'ca\'a6\'cd\'f8\'d5\'be\'b1\'ea\'c5\'e4
+\f0 ) -->\cf0 \cb1 \
+\cb3     \cf6 <\cf7 div\cf0  \cf4 id\cf6 =\cf8 "cursor"\cf0  \cf4 class\cf6 =\cf8 "fixed w-4 h-4 bg-white rounded-full pointer-events-none z-[999] mix-blend-difference transition-transform duration-100 ease-out hidden md:block"\cf6 ></\cf7 div\cf6 >\cf0 \cb1 \
+\
+\cb3     \cf13 <!-- 
+\f1 \'b5\'bc\'ba\'bd\'c0\'b8
+\f0  -->\cf0 \cb1 \
+\cb3     \cf6 <\cf7 nav\cf0  \cf4 class\cf6 =\cf8 "fixed w-full p-8 flex justify-between items-end z-50 mix-blend-difference"\cf6 >\cf0 \cb1 \
+\cb3         \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "font-bold text-xl tracking-tighter"\cf6 >\cf0 YOUNG / CP.\cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3         \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "flex gap-8 text-xs uppercase tracking-widest"\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 a\cf0  \cf4 href\cf6 =\cf8 "#work"\cf0  \cf4 class\cf6 =\cf8 "hover:opacity-50 transition"\cf6 >\cf0 Work\cf6 </\cf7 a\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 a\cf0  \cf4 href\cf6 =\cf8 "#about"\cf0  \cf4 class\cf6 =\cf8 "hover:opacity-50 transition"\cf6 >\cf0 About\cf6 </\cf7 a\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 a\cf0  \cf4 href\cf6 =\cf8 "#contact"\cf0  \cf4 class\cf6 =\cf8 "hover:opacity-50 transition"\cf6 >\cf0 Contact\cf6 </\cf7 a\cf6 >\cf0 \cb1 \
+\cb3         \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3     \cf6 </\cf7 nav\cf6 >\cf0 \cb1 \
+\
+\cb3     \cf13 <!-- 
+\f1 \'d3\'a2\'d0\'db\'c7\'f8
+\f0  (
+\f1 \'cd\'ea\'c8\'ab\'b8\'b4\'bf\'cc\'b4\'f3\'d7\'d6\'b1\'a8\'ca\'d3\'be\'f5
+\f0 ) -->\cf0 \cb1 \
+\cb3     \cf6 <\cf7 section\cf0  \cf4 class\cf6 =\cf8 "min-h-screen flex flex-col justify-center px-8 pt-20"\cf6 >\cf0 \cb1 \
+\cb3         \cf6 <\cf7 h1\cf0  \cf4 class\cf6 =\cf8 "hero-title text-[15vw] md:text-[12vw] font-black mb-10"\cf6 >\cf0 \cb1 \
+\cb3             GRAPHIC\cf6 <\cf7 br\cf6 >\cf0 DESIGNER\cb1 \
+\cb3         \cf6 </\cf7 h1\cf6 >\cf0 \cb1 \
+\cb3         \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "flex flex-col md:flex-row justify-between items-start md:items-end gap-6"\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 p\cf0  \cf4 class\cf6 =\cf8 "max-w-sm text-gray-400 text-sm leading-relaxed"\cf6 >\cf0 \cb1 \
+\cb3                 
+\f1 \'d7\'a8\'d7\'a2\'c6\'b7\'c5\'c6\'ca\'d3\'be\'f5\'d0\'ce\'cf\'f3\'a1\'a2\'ca\'fd\'d7\'d6\'bd\'e7\'c3\'e6\'cc\'bd\'cb\'f7\'a1\'a3\'d6\'c2\'c1\'a6\'d3\'da\'cd\'a8\'b9\'fd\'bc\'ab\'bc\'f2\'b5\'c4\'ca\'d3\'be\'f5\'c2\'df\'bc\'ad\'a3\'ac\'ce\'aa\'c6\'b7\'c5\'c6\'b4\'b4\'d4\'ec\'b6\'c0\'cc\'d8\'b5\'c4\'bc\'c7\'d2\'e4\'b5\'e3\'a1\'a3
+\f0 \cb1 \
+\cb3             \cf6 </\cf7 p\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "text-right"\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 span\cf0  \cf4 class\cf6 =\cf8 "block text-4xl font-light"\cf6 >\cf0 2023 - 2026\cf6 </\cf7 span\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 span\cf0  \cf4 class\cf6 =\cf8 "text-xs uppercase tracking-tighter text-gray-500"\cf6 >\cf0 Selected Projects\cf6 </\cf7 span\cf6 >\cf0 \cb1 \
+\cb3             \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3         \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3     \cf6 </\cf7 section\cf6 >\cf0 \cb1 \
+\
+\cb3     \cf13 <!-- 
+\f1 \'d7\'f7\'c6\'b7\'d5\'b9\'ca\'be\'c7\'f8
+\f0  (
+\f1 \'b2\'c9\'d3\'c3\'b4\'f3\'cd\'bc\'c5\'c5\'c1\'d0\'c2\'df\'bc\'ad
+\f0 ) -->\cf0 \cb1 \
+\cb3     \cf6 <\cf7 section\cf0  \cf4 id\cf6 =\cf8 "work"\cf0  \cf4 class\cf6 =\cf8 "px-8 py-32 space-y-32"\cf6 >\cf0 \cb1 \
+\cb3         \cb1 \
+\cb3         \cf13 <!-- 
+\f1 \'d7\'f7\'c6\'b7
+\f0  1 -->\cf0 \cb1 \
+\cb3         \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "work-item reveal group"\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "relative aspect-video md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm"\cf6 >\cf0 \cb1 \
+\cb3                 \cf13 <!-- 
+\f1 \'d5\'e2\'c0\'ef\'bb\'bb\'b3\'c9\'c4\'e3\'b5\'c4\'d7\'f7\'c6\'b7\'cd\'bc
+\f0  -->\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 img\cf0  \cf4 src\cf6 =\cf8 "https://images.unsplash.com/photo-1634942537034-2531766767d7?q=80&w=2000"\cf0  \cf4 class\cf6 =\cf8 "w-full h-full object-cover grayscale group-hover:grayscale-0"\cf0  \cf4 alt\cf6 =\cf8 "Work 01"\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "absolute bottom-6 right-6 text-xs bg-white text-black px-3 py-1 font-bold"\cf6 >\cf0 01\cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3             \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "mt-8 flex justify-between items-start"\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 div\cf6 >\cf0 \cb1 \
+\cb3                     \cf6 <\cf7 h3\cf0  \cf4 class\cf6 =\cf8 "text-3xl font-bold uppercase"\cf6 >\cf0 Metaverse Identity\cf6 </\cf7 h3\cf6 >\cf0 \cb1 \
+\cb3                     \cf6 <\cf7 p\cf0  \cf4 class\cf6 =\cf8 "text-gray-500 mt-2 italic text-sm"\cf6 >\cf0 Branding / 3D Design / 2024\cf6 </\cf7 p\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 button\cf0  \cf4 class\cf6 =\cf8 "text-sm underline underline-offset-4 hover:text-gray-400 transition"\cf6 >\cf0 VIEW CASE\cf6 </\cf7 button\cf6 >\cf0 \cb1 \
+\cb3             \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3         \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\
+\cb3         \cf13 <!-- 
+\f1 \'d7\'f7\'c6\'b7
+\f0  2 -->\cf0 \cb1 \
+\cb3         \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "work-item reveal"\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "relative aspect-video md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm group"\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 img\cf0  \cf4 src\cf6 =\cf8 "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000"\cf0  \cf4 class\cf6 =\cf8 "w-full h-full object-cover grayscale group-hover:grayscale-0"\cf0  \cf4 alt\cf6 =\cf8 "Work 02"\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "absolute bottom-6 right-6 text-xs bg-white text-black px-3 py-1 font-bold"\cf6 >\cf0 02\cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3             \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "mt-8 flex justify-between items-start"\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 div\cf6 >\cf0 \cb1 \
+\cb3                     \cf6 <\cf7 h3\cf0  \cf4 class\cf6 =\cf8 "text-3xl font-bold uppercase"\cf6 >\cf0 Minimalist Editorial\cf6 </\cf7 h3\cf6 >\cf0 \cb1 \
+\cb3                     \cf6 <\cf7 p\cf0  \cf4 class\cf6 =\cf8 "text-gray-500 mt-2 italic text-sm"\cf6 >\cf0 Typography / Print / 2023\cf6 </\cf7 p\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 button\cf0  \cf4 class\cf6 =\cf8 "text-sm underline underline-offset-4 hover:text-gray-400 transition"\cf6 >\cf0 VIEW CASE\cf6 </\cf7 button\cf6 >\cf0 \cb1 \
+\cb3             \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3         \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\
+\cb3     \cf6 </\cf7 section\cf6 >\cf0 \cb1 \
+\
+\cb3     \cf13 <!-- 
+\f1 \'c1\'aa\'cf\'b5\'c7\'f8
+\f0  -->\cf0 \cb1 \
+\cb3     \cf6 <\cf7 section\cf0  \cf4 id\cf6 =\cf8 "contact"\cf0  \cf4 class\cf6 =\cf8 "px-8 py-40 border-t border-zinc-800"\cf6 >\cf0 \cb1 \
+\cb3         \cf6 <\cf7 h2\cf0  \cf4 class\cf6 =\cf8 "text-6xl md:text-8xl font-black uppercase mb-12 hero-title"\cf6 >\cf0 Let's Talk\cf6 </\cf7 h2\cf6 >\cf0 \cb1 \
+\cb3         \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "grid grid-cols-1 md:grid-cols-3 gap-12"\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 div\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 span\cf0  \cf4 class\cf6 =\cf8 "text-xs text-gray-500 uppercase block mb-4"\cf6 >\cf0 Email\cf6 </\cf7 span\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 a\cf0  \cf4 href\cf6 =\cf8 "mailto:hello@designer.com"\cf0  \cf4 class\cf6 =\cf8 "text-2xl hover:line-through"\cf6 >\cf0 HELLO@DESIGNER.COM\cf6 </\cf7 a\cf6 >\cf0 \cb1 \
+\cb3             \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3             \cf6 <\cf7 div\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 span\cf0  \cf4 class\cf6 =\cf8 "text-xs text-gray-500 uppercase block mb-4"\cf6 >\cf0 Social\cf6 </\cf7 span\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 <\cf7 div\cf0  \cf4 class\cf6 =\cf8 "flex gap-4"\cf6 >\cf0 \cb1 \
+\cb3                     \cf6 <\cf7 a\cf0  \cf4 href\cf6 =\cf8 "#"\cf0  \cf4 class\cf6 =\cf8 "hover:underline"\cf6 >\cf0 BEHANCE\cf6 </\cf7 a\cf6 >\cf0 \cb1 \
+\cb3                     \cf6 <\cf7 a\cf0  \cf4 href\cf6 =\cf8 "#"\cf0  \cf4 class\cf6 =\cf8 "hover:underline"\cf6 >\cf0 DRIBBBLE\cf6 </\cf7 a\cf6 >\cf0 \cb1 \
+\cb3                     \cf6 <\cf7 a\cf0  \cf4 href\cf6 =\cf8 "#"\cf0  \cf4 class\cf6 =\cf8 "hover:underline"\cf6 >\cf0 INSTAGRAM\cf6 </\cf7 a\cf6 >\cf0 \cb1 \
+\cb3                 \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3             \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3         \cf6 </\cf7 div\cf6 >\cf0 \cb1 \
+\cb3     \cf6 </\cf7 section\cf6 >\cf0 \cb1 \
+\
+\cb3     \cf6 <\cf7 footer\cf0  \cf4 class\cf6 =\cf8 "p-8 text-[10px] text-gray-600 uppercase flex justify-between"\cf6 >\cf0 \cb1 \
+\cb3         \cf6 <\cf7 span\cf6 >\cf0 Designed by You\cf6 </\cf7 span\cf6 >\cf0 \cb1 \
+\cb3         \cf6 <\cf7 span\cf6 >\cf0 Made with Love & AI\cf6 </\cf7 span\cf6 >\cf0 \cb1 \
+\cb3     \cf6 </\cf7 footer\cf6 >\cf0 \cb1 \
+\
+\cb3     \cf6 <\cf7 script\cf6 >\cf0 \cb1 \
+\cb3         \cf13 // 
+\f1 \'b9\'f6\'b6\'af\'cf\'d4\'ca\'be\'b6\'af\'bb\'ad\'c2\'df\'bc\'ad
+\f0 \cf0 \cb1 \
+\cb3         \cf9 const\cf0  observer = \cf9 new\cf0  \cf14 IntersectionObserver\cf0 ((entries) => \{\cb1 \
+\cb3             entries.forEach(entry => \{\cb1 \
+\cb3                 \cf9 if\cf0  (entry.isIntersecting) \{\cb1 \
+\cb3                     entry.target.classList.add(\cf11 'active'\cf0 );\cb1 \
+\cb3                 \}\cb1 \
+\cb3             \});\cb1 \
+\cb3         \}, \{ threshold: \cf15 0.1\cf0  \});\cb1 \
+\
+\cb3         document.querySelectorAll(\cf11 '.reveal'\cf0 ).forEach(el => observer.observe(el));\cb1 \
+\
+\cb3         \cf13 // 
+\f1 \'ca\'f3\'b1\'ea\'b8\'fa\'cb\'e6\'d0\'a7\'b9\'fb
+\f0 \cf0 \cb1 \
+\cb3         \cf9 const\cf0  cursor = document.getElementById(\cf11 'cursor'\cf0 );\cb1 \
+\cb3         document.addEventListener(\cf11 'mousemove'\cf0 , (e) => \{\cb1 \
+\cb3             cursor.style.transform = \cf11 `translate(\cf0 $\{e.clientX\}\cf11 px, \cf0 $\{e.clientY\}\cf11 px)`\cf0 ;\cb1 \
+\cb3         \});\cb1 \
+\cb3     \cf6 </\cf7 script\cf6 >\cf0 \cb1 \
+\cf6 \cb3 </\cf7 body\cf6 >\cf0 \cb1 \
+\cf6 \cb3 </\cf7 html\cf6 >\cf0 \cb1 \
+}

@@ -57,12 +57,14 @@
         /* 作品详情折叠逻辑 */
         .project-details {
             max-height: 0;
+            opacity: 0;
             overflow: hidden;
-            transition: max-height 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: max-height 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             background: #0f0f0f;
         }
         .work-item.expanded .project-details {
             max-height: 12000px; 
+            opacity: 1;
         }
         .work-item.expanded .view-btn-text::after {
             content: "CLOSE";
@@ -138,8 +140,9 @@
             </div>
 
             <!-- 详情区域：点击后才显示所有简介和参数 -->
-            <div class="project-details mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
+            <div class="project-details">
+                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
                     <div class="space-y-6">
                         <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
                         <p class="text-lg md:text-2xl font-light leading-relaxed zh-content">
@@ -164,6 +167,7 @@
                         <img src="assets/project1/detail3.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Lotus Detail 3" onerror="this.style.display='none'">
                     </div>
                 </div>
+                </div>
             </div>
         </div>
 
@@ -187,7 +191,8 @@
                 </button>
             </div>
 
-            <div class="project-details mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
+            <div class="project-details">
+                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
                 <!-- 展开后才显示简介和参数 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
                     <div class="space-y-6">
@@ -221,6 +226,7 @@
                         <img src="assets/project2/detail4.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 4" onerror="this.style.display='none'">
                         <img src="assets/project2/detail5.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 5" onerror="this.style.display='none'">
                     </div>
+                </div>
                 </div>
             </div>
         </div>

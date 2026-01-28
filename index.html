@@ -108,6 +108,15 @@
             .zh-content {
                 line-height: 1.8;
             }
+            /* 封面图在手机上避免裁切，保留完整画面 */
+            .img-placeholder img {
+                object-fit: contain !important;
+                object-position: center;
+            }
+            /* 关于区域容器在手机上不限制最大宽度 */
+            #about .max-w-5xl {
+                max-width: none;
+            }
         }
         #project-modal .panel-inner .zh-content {
             font-size: 0.95rem;
@@ -197,7 +206,7 @@
     </nav>
 
     <section class="min-h-screen flex flex-col justify-end px-6 md:px-8 pb-32">
-        <h1 class="hero-title text-[18vw] md:text-[12vw] font-black mb-10">
+        <h1 class="hero-title text-[14vw] md:text-[12vw] font-black mb-10">
             GRAPHIC<br>DESIGNER
         </h1>
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
@@ -207,7 +216,7 @@
                 为每一场活动创造无可替代的感官体验。
             </p>
             <div class="text-left md:text-right">
-                <span class="block text-3xl md:text-4xl font-light">2016 - 2026</span>
+                <span class="block text-xl md:text-4xl font-light">2016 - 2026</span>
                 <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selected Projects Portfolio</span>
             </div>
         </div>

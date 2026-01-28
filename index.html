@@ -27,7 +27,7 @@
         .zh-content {
             word-break: keep-all;
             overflow-wrap: break-word;
-            text-align: justify;
+            text-align: left;
         }
 
         /* 导航栏动态背景 - 增强毛玻璃 */
@@ -84,6 +84,67 @@
                 line-height: 1;
             }
         }
+        #project-modal .panel-inner .zh-content {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            text-align: left;
+            word-break: keep-all;
+            overflow-wrap: anywhere;
+            max-width: 60ch;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            #project-modal .panel-inner .zh-content {
+                font-size: 1.125rem;
+            }
+        }
+
+        #project-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1rem;
+        }
+        #project-modal.show {
+            display: flex;
+        }
+        #project-modal .backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+        }
+        #project-modal .panel {
+            position: relative;
+            background: #0f0f0f;
+            color: #fff;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        #project-modal .panel-inner {
+            padding: 2rem;
+        }
+        #project-modal .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: 999px;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -100,18 +161,18 @@
         </div>
     </nav>
 
-    <section class="min-h-screen flex flex-col justify-center px-6 md:px-8 pt-20">
+    <section class="min-h-screen flex flex-col justify-end px-6 md:px-8 pb-32">
         <h1 class="hero-title text-[18vw] md:text-[12vw] font-black mb-10">
             GRAPHIC<br>DESIGNER
         </h1>
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-            <p class="max-w-md text-gray-400 text-sm md:text-base leading-relaxed zh-content">
+            <p class="max-w-md text-gray-400 text-sm md:text-base leading-relaxed zh-content md:pl-2">
                 专注发布会、车展及各类商业会展的视觉设计。<br class="hidden md:block">
                 致力于将空间叙事与视觉逻辑深度融合，通过精准的设计语言<br class="hidden md:block">
                 为每一场活动创造无可替代的感官体验。
             </p>
             <div class="text-left md:text-right">
-                <span class="block text-3xl md:text-4xl font-light">2021 - 2026</span>
+                <span class="block text-3xl md:text-4xl font-light">2016 - 2026</span>
                 <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selected Projects Portfolio</span>
             </div>
         </div>
@@ -233,6 +294,14 @@
 
     </section>
 
+    <div id="project-modal">
+        <div class="backdrop" onclick="closeModal()"></div>
+        <div class="panel">
+            <button class="close-btn" onclick="closeModal()">Close</button>
+            <div class="panel-inner" id="project-modal-content"></div>
+        </div>
+    </div>
+
     <section id="about" class="px-6 md:px-8 py-24 md:py-48 bg-zinc-950">
         <div class="max-w-5xl reveal">
             <h2 class="text-[10px] text-zinc-500 uppercase tracking-[0.3em] mb-12 font-bold">Artist Statement</h2>
@@ -282,23 +351,24 @@
             }
         });
 
-        // 项目展开切换逻辑
         function toggleProject(id) {
             const item = document.getElementById(id);
-            const isExpanded = item.classList.contains('expanded');
-            
-            if (!isExpanded) {
-                item.classList.add('expanded');
-                setTimeout(() => {
-                    const offset = item.getBoundingClientRect().top + window.pageYOffset - 100;
-                    window.scrollTo({ top: offset, behavior: 'smooth' });
-                }, 100);
-            } else {
-                item.classList.remove('expanded');
-                // 平滑滚动回封面顶部
-                const offset = item.getBoundingClientRect().top + window.pageYOffset - 100;
-                window.scrollTo({ top: offset, behavior: 'smooth' });
-            }
+            const details = item ? item.querySelector('.project-details') : null;
+            const modal = document.getElementById('project-modal');
+            const content = document.getElementById('project-modal-content');
+            if (!details || !modal || !content) return;
+            content.innerHTML = details.innerHTML;
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            const content = document.getElementById('project-modal-content');
+            if (!modal) return;
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+            if (content) content.innerHTML = '';
         }
 
         // 视口观察者：滚动出现动画

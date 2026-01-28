@@ -211,59 +211,7 @@
                 <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selected Projects Portfolio</span>
             </div>
         </div>
-        <!-- 作品 3 (沃尔沃新款XC60上市发布会) 放入 Work 区块 -->
-        <div class="work-item reveal group border-b border-zinc-800 pb-16 overflow-hidden" id="project3">
-            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden rounded-sm cursor-pointer img-placeholder" onclick="toggleProject('project3')">
-                <img src="assets/project3/cover.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Volvo XC60 Launch" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000'">
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">03</div>
-            </div>
-            
-            <div class="mt-8 flex justify-between items-start gap-4">
-                <div class="flex-1">
-                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight flex flex-wrap items-baseline gap-2 md:gap-4">
-                        VOLVO XC60 LAUNCH EVENT
-                        <span class="text-xs md:text-sm text-zinc-600 font-medium tracking-normal">沃尔沃新款XC60上市发布会</span>
-                    </h3>
-                    <p class="text-zinc-500 mt-2 italic text-[10px] md:text-xs uppercase tracking-[0.2em]">Product Launch / Release Event / 2021</p>
-                </div>
-                <button onclick="toggleProject('project3')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest shrink-0">
-                    <span class="view-btn-text"></span>
-                </button>
-            </div>
-
-            <div class="project-details">
-                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
-                        <div class="space-y-6">
-                            <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
-                            <p class="text-lg md:text-2xl font-light leading-relaxed zh-content">
-                                为沃尔沃新款 XC60 上市发布会构建整体视觉系统，通过极简的北欧设计语言结合光影与材质的克制表达，突出产品的安全、科技与质感。场景化叙事串联舞台视觉与品牌核心信息，确保不同环节在节奏与符号上保持一致。
-                            </p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-widest text-zinc-400 pt-2">
-                            <div class="border-l border-zinc-700 pl-4">
-                                <p class="text-white mb-2 font-bold">Role</p>
-                                <p>Art Direction / Stage Visuals</p>
-                            </div>
-                            <div class="border-l border-zinc-700 pl-4">
-                                <p class="text-white mb-2 font-bold">Core</p>
-                                <p>Scandinavian Precision</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="details-grid space-y-8 md:space-y-16">
-                        <img src="assets/project3/detail1.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 1" onerror="this.style.display='none'">
-                        <img src="assets/project3/detail2.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 2" onerror="this.style.display='none'">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                            <img src="assets/project3/detail3.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 3" onerror="this.style.display='none'">
-                            <img src="assets/project3/detail4.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 4" onerror="this.style.display='none'">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
     <section id="work" class="px-6 md:px-8 py-20 md:py-32 space-y-24">
         
@@ -379,6 +327,58 @@
             </div>
         </div>
 
+        <!-- 作品 3 (沃尔沃新款XC60上市发布会) 放在 C40 下面 -->
+        <div class="work-item reveal group border-b border-zinc-800 pb-16 overflow-hidden" id="project3">
+            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm cursor-pointer img-placeholder" onclick="toggleProject('project3')">
+                <img src="assets/project3/cover.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Volvo XC60 Launch" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000'">
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">03</div>
+            </div>
+            
+            <div class="mt-8 flex justify-between items-start gap-4">
+                <div class="flex-1">
+                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight flex flex-wrap items-baseline gap-2 md:gap-4">
+                        VOLVO XC60 LAUNCH EVENT
+                        <span class="text-xs md:text-sm text-zinc-600 font-medium tracking-normal">沃尔沃新款XC60上市发布会</span>
+                    </h3>
+                    <p class="text-zinc-500 mt-2 italic text-[10px] md:text-xs uppercase tracking-[0.2em]">Product Launch / Release Event / 2021</p>
+                </div>
+                <button onclick="toggleProject('project3')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest shrink-0">
+                    <span class="view-btn-text"></span>
+                </button>
+            </div>
+
+            <div class="project-details">
+                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
+                        <div class="space-y-6">
+                            <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
+                            <p class="text-lg md:text-2xl font-light leading-relaxed zh-content">
+                                为沃尔沃新款 XC60 上市发布会构建整体视觉系统，通过极简的北欧设计语言结合光影与材质的克制表达，突出产品的安全、科技与质感。场景化叙事串联舞台视觉与品牌核心信息，确保不同环节在节奏与符号上保持一致。
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-widest text-zinc-400 pt-2">
+                            <div class="border-l border-zinc-700 pl-4">
+                                <p class="text-white mb-2 font-bold">Role</p>
+                                <p>Art Direction / Stage Visuals</p>
+                            </div>
+                            <div class="border-l border-zinc-700 pl-4">
+                                <p class="text-white mb-2 font-bold">Core</p>
+                                <p>Scandinavian Precision</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-grid space-y-8 md:space-y-16">
+                        <img src="assets/project3/detail1.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 1" onerror="this.style.display='none'">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                            <img src="assets/project3/detail2.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 2" onerror="this.style.display='none'">
+                            <img src="assets/project3/detail3.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 3" onerror="this.style.display='none'">
+                        </div>
+                        <img src="assets/project3/detail4.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 4" onerror="this.style.display='none'">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <div id="project-modal">

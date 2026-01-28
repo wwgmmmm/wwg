@@ -45,9 +45,11 @@
         }
 
         .zh-content {
-            word-break: keep-all;
-            overflow-wrap: break-word;
+            word-break: normal;
+            overflow-wrap: anywhere;
             text-align: left;
+            line-break: strict;
+            text-wrap: pretty;
         }
 
         /* 导航栏动态背景 - 增强毛玻璃 */
@@ -103,6 +105,9 @@
             .hero-title {
                 line-height: 1;
             }
+            .zh-content {
+                line-height: 1.8;
+            }
         }
         #project-modal .panel-inner .zh-content {
             font-size: 0.95rem;
@@ -150,6 +155,9 @@
         }
         #project-modal .panel-inner {
             padding: 2rem;
+        }
+        #project-modal .panel-inner img {
+            filter: none !important;
         }
         #project-modal .close-btn {
             position: absolute;
@@ -334,7 +342,7 @@
             <h2 class="text-[10px] text-zinc-500 uppercase tracking-[0.3em] mb-12 font-bold">Artist Statement</h2>
             <p class="text-2xl md:text-5xl font-light leading-[1.4] zh-content">
                 在瞬息万变的线下活动中，我追求<br class="hidden md:block">
-                <span class="text-white font-bold underline underline-offset-8 decoration-1">视觉冲击力与执行精度的平衡</span>。<br class="hidden md:block">
+                <span class="font-bold underline underline-offset-8 decoration-1">视觉冲击力与执行精度的平衡</span>。<br class="hidden md:block">
                 擅长从全局角度出发，为商业发布会提供从概念到落地的全案视觉支持。
             </p>
         </div>

@@ -108,14 +108,18 @@
             .zh-content {
                 line-height: 1.8;
             }
-            /* 封面图在手机上避免裁切，保留完整画面 */
+            /* 手机端封面图填满容器 */
             .img-placeholder img {
-                object-fit: contain !important;
+                object-fit: cover !important;
                 object-position: center;
             }
             /* 关于区域容器在手机上不限制最大宽度 */
             #about .max-w-5xl {
                 max-width: none;
+            }
+            /* 顶部品牌文案单行显示 */
+            #main-nav .brand-name {
+                white-space: nowrap;
             }
         }
         #project-modal .panel-inner .zh-content {
@@ -194,7 +198,7 @@
 
     <!-- 增强毛玻璃效果的顶栏 -->
     <nav id="main-nav" class="fixed w-full p-6 md:p-8 flex justify-between items-center z-50">
-        <div class="font-bold text-lg md:text-xl tracking-tighter uppercase">Waylon / Design.</div>
+        <div class="brand-name font-bold text-lg md:text-xl tracking-tighter uppercase">Waylon / Design.</div>
         <div class="flex gap-4 md:gap-8 text-[10px] md:text-xs uppercase tracking-widest font-bold items-center">
             <a href="#work" class="hover:opacity-50 transition">Work</a>
             <a href="#about" class="hover:opacity-50 transition">About</a>

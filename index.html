@@ -24,7 +24,6 @@
             line-height: 0.85;
         }
 
-        /* 优化中文断行 */
         .zh-content {
             word-break: keep-all;
             overflow-wrap: break-word;
@@ -42,12 +41,21 @@
             transform: translateY(0);
         }
 
-        /* 作品悬停效果 */
-        .work-item img {
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        /* 作品详情折叠逻辑 */
+        .project-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #111;
         }
-        .work-item:hover img {
-            transform: scale(1.03);
+        .work-item.expanded .project-details {
+            max-height: 2000px; /* 足够大的高度以容纳内容 */
+        }
+        .work-item.expanded .view-btn-text::after {
+            content: "CLOSE";
+        }
+        .work-item:not(.expanded) .view-btn-text::after {
+            content: "VIEW CASE";
         }
 
         /* 响应式字体调整 */
@@ -92,35 +100,99 @@
     </section>
 
     <!-- 作品展示区 -->
-    <section id="work" class="px-6 md:px-8 py-20 md:py-32 space-y-24 md:space-y-40">
+    <section id="work" class="px-6 md:px-8 py-20 md:py-32 space-y-12">
         
-        <!-- 作品 1 (示例：车展) -->
-        <div class="work-item reveal group">
-            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm">
+        <!-- 作品 1 -->
+        <div class="work-item reveal group border-b border-zinc-800 pb-12 overflow-hidden" id="project1">
+            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm cursor-pointer" onclick="toggleProject('project1')">
+                <!-- 这里替换主图地址 -->
                 <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Automotive Show Case">
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold">01</div>
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">01</div>
             </div>
+            
             <div class="mt-6 md:mt-8 flex justify-between items-start">
                 <div>
-                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-tight">Automotive Visual Design</h3>
+                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight">Automotive Visual Design</h3>
                     <p class="text-gray-500 mt-2 italic text-xs md:text-sm uppercase tracking-wider">Exhibition / Car Show / 2024</p>
                 </div>
-                <button class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest">Case Study</button>
+                <button onclick="toggleProject('project1')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest">
+                    <span class="view-btn-text"></span>
+                </button>
+            </div>
+
+            <!-- 详情展开区域 -->
+            <div class="project-details mt-12 px-6 md:px-12 py-12 md:py-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+                    <div class="space-y-6">
+                        <h4 class="text-xs uppercase text-gray-500 tracking-[0.3em]">Project Brief</h4>
+                        <p class="text-lg md:text-xl font-light leading-relaxed zh-content">
+                            在该项目中，我们为顶级车展设计了全套视觉识别系统。从超大尺寸的主视觉背景屏，到导视系统、周边衍生品，确保在复杂光影环境下依然保持极高的品牌辨识度。
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-[10px] uppercase tracking-widest text-gray-400">
+                        <div class="border-l border-zinc-700 pl-4 py-2">
+                            <p class="text-white mb-1">Role</p>
+                            <p>Art Direction / Key Visual</p>
+                        </div>
+                        <div class="border-l border-zinc-700 pl-4 py-2">
+                            <p class="text-white mb-1">Client</p>
+                            <p>Premium Automotive Brand</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 详情图片网格 - 这里放你整理好的图片 -->
+                <div class="details-grid space-y-8">
+                    <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Detail 1">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <img src="https://images.unsplash.com/photo-1549239480-f194cb39ba49?q=80&w=1000" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Detail 2">
+                        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1000" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Detail 3">
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 作品 2 (示例：发布会) -->
-        <div class="work-item reveal group">
-            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm">
+        <!-- 作品 2 -->
+        <div class="work-item reveal group border-b border-zinc-800 pb-12 overflow-hidden" id="project2">
+            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm cursor-pointer" onclick="toggleProject('project2')">
+                <!-- 这里替换主图地址 -->
                 <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2000" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Launch Event Design">
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold">02</div>
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">02</div>
             </div>
+            
             <div class="mt-6 md:mt-8 flex justify-between items-start">
                 <div>
-                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-tight">Product Launch Keynote</h3>
+                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight">Product Launch Keynote</h3>
                     <p class="text-gray-500 mt-2 italic text-xs md:text-sm uppercase tracking-wider">Keynote Visual / Stage / 2023</p>
                 </div>
-                <button class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest">Case Study</button>
+                <button onclick="toggleProject('project2')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest">
+                    <span class="view-btn-text"></span>
+                </button>
+            </div>
+
+            <!-- 详情展开区域 -->
+            <div class="project-details mt-12 px-6 md:px-12 py-12 md:py-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+                    <div class="space-y-6">
+                        <h4 class="text-xs uppercase text-gray-500 tracking-[0.3em]">Project Brief</h4>
+                        <p class="text-lg md:text-xl font-light leading-relaxed zh-content">
+                            为年度科技发布会提供视觉全案。通过极简的动态背景与舞台灯光呼应，营造出极具未来感的沉浸式发布环境。
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-[10px] uppercase tracking-widest text-gray-400">
+                        <div class="border-l border-zinc-700 pl-4 py-2">
+                            <p class="text-white mb-1">Role</p>
+                            <p>Keynote Design / Motion</p>
+                        </div>
+                        <div class="border-l border-zinc-700 pl-4 py-2">
+                            <p class="text-white mb-1">Year</p>
+                            <p>2023</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 详情图片网格 - 这里放你整理好的图片 -->
+                <div class="details-grid space-y-8">
+                    <img src="https://images.unsplash.com/photo-1475721027785-f74dea327912?q=80&w=2000" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Detail 1">
+                </div>
             </div>
         </div>
 
@@ -144,11 +216,11 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
             <div>
                 <span class="text-[10px] text-gray-500 uppercase block mb-4 font-bold tracking-widest">Email</span>
-                <a href="mailto:wwgmmmm@gmail.com" class="text-xl md:text-2xl hover:line-through break-all font-medium">WWGMMMM@GMAIL.COM</a>
+                <a href="mailto:wwgmmmm@gmail.com" class="text-xl md:text-2xl hover:line-through break-all font-medium font-bold uppercase">WWGMMMM@GMAIL.COM</a>
             </div>
             <div>
                 <span class="text-[10px] text-gray-500 uppercase block mb-4 font-bold tracking-widest">WeChat / Phone</span>
-                <span class="text-xl md:text-2xl block font-medium">131 3808 8381</span>
+                <span class="text-xl md:text-2xl block font-medium font-bold uppercase leading-none">131 3808 8381</span>
             </div>
             <div>
                 <span class="text-[10px] text-gray-500 uppercase block mb-4 font-bold tracking-widest">Social Network</span>
@@ -167,7 +239,26 @@
     </footer>
 
     <script>
-        // 滚动显示动画逻辑
+        // 作品展开/折叠逻辑
+        function toggleProject(id) {
+            const item = document.getElementById(id);
+            const isExpanded = item.classList.contains('expanded');
+            
+            // 如果点击另一个，可以先收起其他的（可选）
+            // document.querySelectorAll('.work-item').forEach(el => el.classList.remove('expanded'));
+            
+            if (!isExpanded) {
+                item.classList.add('expanded');
+                // 平滑滚动到该项顶部
+                setTimeout(() => {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            } else {
+                item.classList.remove('expanded');
+            }
+        }
+
+        // 滚动显示动画
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -178,14 +269,14 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 鼠标跟随效果
+        // 鼠标跟随
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // 点击导航平滑滚动
+        // 导航平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();

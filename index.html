@@ -3,145 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Portfolio</title>
+    <title>Waylon | Graphic Designer Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;900&display=swap');
         
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #0a0a0a;
             color: #ffffff;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
         .hero-title {
             font-family: 'Syncopate', sans-serif;
             text-transform: uppercase;
             letter-spacing: -0.05em;
-            line-height: 0.8;
+            line-height: 0.85;
         }
 
-        /* 模仿参考网站的顺滑滚动 */
+        /* 优化中文断行 */
+        .zh-content {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+            text-align: justify;
+        }
+
+        /* 滚动显示动画 */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
         }
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* 作品卡片悬停效果 */
+        /* 作品悬停效果 */
         .work-item img {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .work-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.03);
+        }
+
+        /* 响应式字体调整 */
+        @media (max-width: 768px) {
+            .hero-title {
+                line-height: 1;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- 自定义光标 (设计师网站标配) -->
+    <!-- 自定义光标 -->
     <div id="cursor" class="fixed w-4 h-4 bg-white rounded-full pointer-events-none z-[999] mix-blend-difference transition-transform duration-100 ease-out hidden md:block"></div>
 
     <!-- 导航栏 -->
-    <nav class="fixed w-full p-8 flex justify-between items-end z-50 mix-blend-difference">
-        <div class="font-bold text-xl tracking-tighter uppercase tracking-widest">Your Name / Design.</div>
-        <div class="flex gap-8 text-xs uppercase tracking-widest">
+    <nav class="fixed w-full p-6 md:p-8 flex justify-between items-end z-50 mix-blend-difference">
+        <div class="font-bold text-xl tracking-tighter uppercase tracking-widest">Waylon / Design.</div>
+        <div class="flex gap-6 md:gap-8 text-[10px] md:text-xs uppercase tracking-widest">
             <a href="#work" class="hover:opacity-50 transition">Work</a>
             <a href="#about" class="hover:opacity-50 transition">About</a>
             <a href="#contact" class="hover:opacity-50 transition">Contact</a>
         </div>
     </nav>
 
-    <!-- 英雄区 (完全复刻大字报视觉) -->
-    <section class="min-h-screen flex flex-col justify-center px-8 pt-20">
-        <h1 class="hero-title text-[15vw] md:text-[12vw] font-black mb-10">
+    <!-- 英雄区 -->
+    <section class="min-h-screen flex flex-col justify-center px-6 md:px-8 pt-20">
+        <h1 class="hero-title text-[18vw] md:text-[12vw] font-black mb-10">
             GRAPHIC<br>DESIGNER
         </h1>
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-            <p class="max-w-sm text-gray-400 text-sm leading-relaxed">
-                专注品牌视觉形象、数字界面探索。致力于通过极简的视觉逻辑，为品牌创造独特的记忆点。
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+            <p class="max-w-md text-gray-400 text-sm md:text-base leading-relaxed zh-content">
+                专注发布会、车展及各类商业会展的视觉设计。<br class="hidden md:block">
+                致力于将空间叙事与视觉逻辑深度融合，通过精准的设计语言<br class="hidden md:block">
+                为每一场活动创造无可替代的感官体验。
             </p>
-            <div class="text-right">
-                <span class="block text-4xl font-light">2023 - 2026</span>
-                <span class="text-xs uppercase tracking-tighter text-gray-500 font-bold">Selected Projects</span>
+            <div class="text-left md:text-right">
+                <span class="block text-3xl md:text-4xl font-light">2021 - 2026</span>
+                <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selected Projects Portfolio</span>
             </div>
         </div>
     </section>
 
-    <!-- 作品展示区 (采用大图排列逻辑) -->
-    <section id="work" class="px-8 py-32 space-y-32">
+    <!-- 作品展示区 -->
+    <section id="work" class="px-6 md:px-8 py-20 md:py-32 space-y-24 md:space-y-40">
         
-        <!-- 作品 1 -->
+        <!-- 作品 1 (示例：车展) -->
         <div class="work-item reveal group">
-            <div class="relative aspect-video md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm">
-                <!-- 这里换成你的作品图 -->
-                <img src="https://images.unsplash.com/photo-1634942537034-2531766767d7?q=80&w=2000" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Work 01">
-                <div class="absolute bottom-6 right-6 text-xs bg-white text-black px-3 py-1 font-bold">01</div>
+            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Automotive Show Case">
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold">01</div>
             </div>
-            <div class="mt-8 flex justify-between items-start">
+            <div class="mt-6 md:mt-8 flex justify-between items-start">
                 <div>
-                    <h3 class="text-3xl font-bold uppercase">Metaverse Identity</h3>
-                    <p class="text-gray-500 mt-2 italic text-sm">Branding / 3D Design / 2024</p>
+                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-tight">Automotive Visual Design</h3>
+                    <p class="text-gray-500 mt-2 italic text-xs md:text-sm uppercase tracking-wider">Exhibition / Car Show / 2024</p>
                 </div>
-                <button class="text-sm underline underline-offset-4 hover:text-gray-400 transition font-bold uppercase">View Case</button>
+                <button class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest">Case Study</button>
             </div>
         </div>
 
-        <!-- 作品 2 -->
+        <!-- 作品 2 (示例：发布会) -->
         <div class="work-item reveal group">
-            <div class="relative aspect-video md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm">
-                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Work 02">
-                <div class="absolute bottom-6 right-6 text-xs bg-white text-black px-3 py-1 font-bold">02</div>
+            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm">
+                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2000" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Launch Event Design">
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold">02</div>
             </div>
-            <div class="mt-8 flex justify-between items-start">
+            <div class="mt-6 md:mt-8 flex justify-between items-start">
                 <div>
-                    <h3 class="text-3xl font-bold uppercase">Minimalist Editorial</h3>
-                    <p class="text-gray-500 mt-2 italic text-sm">Typography / Print / 2023</p>
+                    <h3 class="text-2xl md:text-3xl font-bold uppercase tracking-tight">Product Launch Keynote</h3>
+                    <p class="text-gray-500 mt-2 italic text-xs md:text-sm uppercase tracking-wider">Keynote Visual / Stage / 2023</p>
                 </div>
-                <button class="text-sm underline underline-offset-4 hover:text-gray-400 transition font-bold uppercase">View Case</button>
+                <button class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest">Case Study</button>
             </div>
         </div>
 
     </section>
 
     <!-- 关于我 (About) -->
-    <section id="about" class="px-8 py-32 bg-zinc-950">
-        <div class="max-w-4xl reveal">
-            <h2 class="text-xs text-gray-500 uppercase tracking-widest mb-8">About Me</h2>
-            <p class="text-3xl md:text-5xl font-light leading-tight">
-                作为一名设计师，我深信 <span class="text-white font-bold">Less is more</span>。我擅长剥离冗余，寻找品牌最核心的灵魂。
+    <section id="about" class="px-6 md:px-8 py-24 md:py-40 bg-zinc-950">
+        <div class="max-w-5xl reveal">
+            <h2 class="text-[10px] text-gray-500 uppercase tracking-[0.3em] mb-12">Artist Statement</h2>
+            <p class="text-2xl md:text-5xl font-light leading-[1.4] zh-content">
+                在瞬息万变的线下活动中，我追求<br class="hidden md:block">
+                <span class="text-white font-bold underline underline-offset-8 decoration-1">视觉冲击力与执行精度的完美平衡</span>。<br class="hidden md:block">
+                擅长从全局角度出发，为商业发布会提供从概念到落地的全案视觉支持。
             </p>
         </div>
     </section>
 
     <!-- 联系区 -->
-    <section id="contact" class="px-8 py-40 border-t border-zinc-800">
-        <h2 class="text-6xl md:text-8xl font-black uppercase mb-12 hero-title">Let's Talk</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+    <section id="contact" class="px-6 md:px-8 py-24 md:py-40 border-t border-zinc-800">
+        <h2 class="text-5xl md:text-8xl font-black uppercase mb-16 hero-title">Let's Connect</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
             <div>
-                <span class="text-xs text-gray-500 uppercase block mb-4 font-bold">Email</span>
-                <a href="mailto:hello@designer.com" class="text-2xl hover:line-through">HELLO@DESIGNER.COM</a>
+                <span class="text-[10px] text-gray-500 uppercase block mb-4 font-bold tracking-widest">Email</span>
+                <a href="mailto:wwgmmmm@gmail.com" class="text-xl md:text-2xl hover:line-through break-all font-medium">WWGMMMM@GMAIL.COM</a>
             </div>
             <div>
-                <span class="text-xs text-gray-500 uppercase block mb-4 font-bold">Social</span>
-                <div class="flex flex-col gap-2">
-                    <a href="#" class="hover:underline">BEHANCE</a>
-                    <a href="#" class="hover:underline">DRIBBBLE</a>
-                    <a href="#" class="hover:underline">INSTAGRAM</a>
+                <span class="text-[10px] text-gray-500 uppercase block mb-4 font-bold tracking-widest">WeChat / Phone</span>
+                <span class="text-xl md:text-2xl block font-medium">131 3808 8381</span>
+            </div>
+            <div>
+                <span class="text-[10px] text-gray-500 uppercase block mb-4 font-bold tracking-widest">Social Network</span>
+                <div class="flex flex-col gap-3">
+                    <a href="#" class="text-sm hover:underline tracking-widest uppercase">Behance</a>
+                    <a href="#" class="text-sm hover:underline tracking-widest uppercase">Dribbble</a>
+                    <a href="#" class="text-sm hover:underline tracking-widest uppercase">Instagram</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="p-8 text-[10px] text-gray-600 uppercase flex justify-between tracking-tighter">
-        <span>&copy; 2026 Your Name</span>
-        <span>Made with Love & AI</span>
+    <footer class="p-8 text-[9px] md:text-[10px] text-gray-600 uppercase flex flex-col md:flex-row justify-between items-center gap-4 tracking-tighter border-t border-zinc-900">
+        <span>&copy; 2021 - 2026 Waylon Graphic Design Studio</span>
+        <span class="opacity-50">Curated with Precision & AI</span>
     </footer>
 
     <script>
@@ -161,6 +183,16 @@
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
+        });
+
+        // 点击导航平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>

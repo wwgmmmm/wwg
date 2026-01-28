@@ -9,10 +9,30 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;900&display=swap');
         
+        :root {
+            --bg: #0a0a0a;
+            --text: #ffffff;
+            --nav-scrolled-bg: rgba(0, 0, 0, 0.6);
+            --nav-border: rgba(255, 255, 255, 0.1);
+            --panel-bg: #0f0f0f;
+            --panel-text: #ffffff;
+            --backdrop: rgba(0, 0, 0, 0.6);
+            --img-placeholder: #1a1a1a;
+        }
+        [data-theme="light"] {
+            --bg: #f8f7f4;
+            --text: #0a0a0a;
+            --nav-scrolled-bg: rgba(255, 255, 255, 0.6);
+            --nav-border: rgba(0, 0, 0, 0.1);
+            --panel-bg: #ffffff;
+            --panel-text: #0a0a0a;
+            --backdrop: rgba(255, 255, 255, 0.6);
+            --img-placeholder: #f2f2f2;
+        }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #0a0a0a;
-            color: #ffffff;
+            background-color: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
             line-height: 1.6;
         }
@@ -35,12 +55,12 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         nav.scrolled {
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: var(--nav-scrolled-bg);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             padding-top: 1.25rem !important;
             padding-bottom: 1.25rem !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--nav-border);
         }
 
         /* 滚动显示动画 */
@@ -75,7 +95,7 @@
 
         /* 图片预加载背景 */
         .img-placeholder {
-            background: #1a1a1a;
+            background: var(--img-placeholder);
         }
 
         /* 响应式字体调整 */
@@ -114,13 +134,13 @@
         #project-modal .backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: var(--backdrop);
             backdrop-filter: blur(6px);
         }
         #project-modal .panel {
             position: relative;
-            background: #0f0f0f;
-            color: #fff;
+            background: var(--panel-bg);
+            color: var(--panel-text);
             width: 100%;
             max-width: 1000px;
             max-height: 90vh;
@@ -154,10 +174,13 @@
     <!-- 增强毛玻璃效果的顶栏 -->
     <nav id="main-nav" class="fixed w-full p-6 md:p-8 flex justify-between items-center z-50">
         <div class="font-bold text-lg md:text-xl tracking-tighter uppercase">Waylon / Design.</div>
-        <div class="flex gap-4 md:gap-8 text-[10px] md:text-xs uppercase tracking-widest font-bold">
+        <div class="flex gap-4 md:gap-8 text-[10px] md:text-xs uppercase tracking-widest font-bold items-center">
             <a href="#work" class="hover:opacity-50 transition">Work</a>
             <a href="#about" class="hover:opacity-50 transition">About</a>
             <a href="#contact" class="hover:opacity-50 transition">Contact</a>
+            <button id="theme-toggle" class="ml-2 md:ml-4 w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-500 transition" aria-label="Toggle theme">
+                <span id="theme-icon" class="inline-block w-4 h-4 md:w-5 md:h-5"></span>
+            </button>
         </div>
     </nav>
 
@@ -350,6 +373,36 @@
                 nav.classList.remove('scrolled');
             }
         });
+        function renderThemeIcon(theme) {
+            const icon = document.getElementById('theme-icon');
+            if (!icon) return;
+            if (theme === 'light') {
+                icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5" stroke-width="2"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke-width="2" stroke-linecap="round"/></svg>';
+            } else {
+                icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+            }
+        }
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            renderThemeIcon(theme);
+        }
+        function getInitialTheme() {
+            const saved = localStorage.getItem('theme');
+            if (saved) return saved;
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            return prefersLight ? 'light' : 'dark';
+        }
+        const initialTheme = getInitialTheme();
+        applyTheme(initialTheme);
+        const toggleBtn = document.getElementById('theme-toggle');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                applyTheme(next);
+            });
+        }
 
         function toggleProject(id) {
             const item = document.getElementById(id);

@@ -35,12 +35,12 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         nav.scrolled {
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             padding-top: 1.25rem !important;
             padding-bottom: 1.25rem !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* 滚动显示动画 */
@@ -62,7 +62,7 @@
             background: #0f0f0f;
         }
         .work-item.expanded .project-details {
-            max-height: 10000px; 
+            max-height: 12000px; 
         }
         .work-item.expanded .view-btn-text::after {
             content: "CLOSE";
@@ -137,8 +137,8 @@
                 </button>
             </div>
 
+            <!-- 详情区域：点击后才显示所有简介和参数 -->
             <div class="project-details mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
-                <!-- 展开后才显示的内容 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
                     <div class="space-y-6">
                         <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
@@ -188,6 +188,7 @@
             </div>
 
             <div class="project-details mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
+                <!-- 展开后才显示简介和参数 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
                     <div class="space-y-6">
                         <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
@@ -207,14 +208,16 @@
                     </div>
                 </div>
                 
-                <!-- 5张图精选布局 -->
+                <!-- 5张图调整为 1+1+1+2 布局 -->
                 <div class="details-grid space-y-8 md:space-y-16">
+                    <!-- 第一张：全宽 -->
+                    <img src="assets/project2/detail1.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 1" onerror="this.style.display='none'">
+                    <!-- 第二张：全宽 -->
+                    <img src="assets/project2/detail2.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 2" onerror="this.style.display='none'">
+                    <!-- 第三张：全宽 -->
+                    <img src="assets/project2/detail3.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 3" onerror="this.style.display='none'">
+                    <!-- 第四、五张：并排 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                        <img src="assets/project2/detail1.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 1" onerror="this.style.display='none'">
-                        <img src="assets/project2/detail2.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 2" onerror="this.style.display='none'">
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
-                        <img src="assets/project2/detail3.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 3" onerror="this.style.display='none'">
                         <img src="assets/project2/detail4.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 4" onerror="this.style.display='none'">
                         <img src="assets/project2/detail5.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 5" onerror="this.style.display='none'">
                     </div>
@@ -263,7 +266,7 @@
     </footer>
 
     <script>
-        // 导航栏滚动效果：监听更显著的位移
+        // 导航栏滚动效果：监听位移
         const nav = document.getElementById('main-nav');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 30) {

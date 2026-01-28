@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waylon | Graphic Designer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;900&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .hero-title {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            line-height: 0.85;
+        }
+
+        .zh-content {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+            text-align: justify;
+        }
+
+        /* 导航栏动态背景 - 增强毛玻璃 */
+        nav {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        nav.scrolled {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding-top: 1.25rem !important;
+            padding-bottom: 1.25rem !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 滚动显示动画 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 作品详情折叠逻辑 */
+        .project-details {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #0f0f0f;
+        }
+        .work-item.expanded .project-details {
+            max-height: 12000px; 
+            opacity: 1;
+        }
+        .work-item.expanded .view-btn-text::after {
+            content: "CLOSE";
+        }
+        .work-item:not(.expanded) .view-btn-text::after {
+            content: "VIEW CASE";
+        }
+
+        /* 图片预加载背景 */
+        .img-placeholder {
+            background: #1a1a1a;
+        }
+
+        /* 响应式字体调整 */
+        @media (max-width: 768px) {
+            .hero-title {
+                line-height: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor" class="fixed w-4 h-4 bg-white rounded-full pointer-events-none z-[999] mix-blend-difference transition-transform duration-100 ease-out hidden md:block"></div>
+
+    <!-- 增强毛玻璃效果的顶栏 -->
+    <nav id="main-nav" class="fixed w-full p-6 md:p-8 flex justify-between items-center z-50">
+        <div class="font-bold text-lg md:text-xl tracking-tighter uppercase">Waylon / Design.</div>
+        <div class="flex gap-4 md:gap-8 text-[10px] md:text-xs uppercase tracking-widest font-bold">
+            <a href="#work" class="hover:opacity-50 transition">Work</a>
+            <a href="#about" class="hover:opacity-50 transition">About</a>
+            <a href="#contact" class="hover:opacity-50 transition">Contact</a>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex flex-col justify-center px-6 md:px-8 pt-20">
+        <h1 class="hero-title text-[18vw] md:text-[12vw] font-black mb-10">
+            GRAPHIC<br>DESIGNER
+        </h1>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+            <p class="max-w-md text-gray-400 text-sm md:text-base leading-relaxed zh-content">
+                专注发布会、车展及各类商业会展的视觉设计。<br class="hidden md:block">
+                致力于将空间叙事与视觉逻辑深度融合，通过精准的设计语言<br class="hidden md:block">
+                为每一场活动创造无可替代的感官体验。
+            </p>
+            <div class="text-left md:text-right">
+                <span class="block text-3xl md:text-4xl font-light">2021 - 2026</span>
+                <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selected Projects Portfolio</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="px-6 md:px-8 py-20 md:py-32 space-y-24">
+        
+        <!-- 作品 1 (路特斯赛道挑战日) -->
+        <div class="work-item reveal group border-b border-zinc-800 pb-16 overflow-hidden" id="project1">
+            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm cursor-pointer img-placeholder" onclick="toggleProject('project1')">
+                <img src="assets/project1/cover.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Lotus Track Day" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000'">
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">01</div>
+            </div>
+            
+            <div class="mt-8 flex justify-between items-start gap-4">
+                <div class="flex-1">
+                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight flex flex-wrap items-baseline gap-2 md:gap-4">
+                        LOTUS TRACK DAY
+                        <span class="text-xs md:text-sm text-zinc-600 font-medium tracking-normal">路特斯赛道挑战日</span>
+                    </h3>
+                    <p class="text-zinc-500 mt-2 italic text-[10px] md:text-xs uppercase tracking-[0.2em]">Motorsports / Track Event / 2024</p>
+                </div>
+                <button onclick="toggleProject('project1')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest shrink-0">
+                    <span class="view-btn-text"></span>
+                </button>
+            </div>
+
+            <!-- 详情区域：点击后才显示所有简介和参数 -->
+            <div class="project-details">
+                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
+                    <div class="space-y-6">
+                        <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
+                        <p class="text-lg md:text-2xl font-light leading-relaxed zh-content">
+                            为“路特斯赛道挑战日”打造全感官视觉方案。设计灵感源自空气动力学曲线与极致的赛道线条，通过强对比的色彩组合与极具动感的版式设计，传递品牌核心精神。视觉覆盖从Pit房改造到赛道围挡，确保在极速环境下依然具备极强的视觉冲击力。
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-widest text-zinc-400 pt-2">
+                        <div class="border-l border-zinc-700 pl-4">
+                            <p class="text-white mb-2 font-bold">Role</p>
+                            <p>Visual Identity / Environmental</p>
+                        </div>
+                        <div class="border-l border-zinc-700 pl-4">
+                            <p class="text-white mb-2 font-bold">Concept</p>
+                            <p>Aerodynamics & Speed</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="details-grid space-y-8 md:space-y-16">
+                    <img src="assets/project1/detail1.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Lotus Detail 1" onerror="this.style.display='none'">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                        <img src="assets/project1/detail2.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Lotus Detail 2" onerror="this.style.display='none'">
+                        <img src="assets/project1/detail3.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Lotus Detail 3" onerror="this.style.display='none'">
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 作品 2 (沃尔沃C40发布会) -->
+        <div class="work-item reveal group border-b border-zinc-800 pb-16 overflow-hidden" id="project2">
+            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm cursor-pointer img-placeholder" onclick="toggleProject('project2')">
+                <img src="assets/project2/cover.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Volvo C40" onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2000'">
+                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">02</div>
+            </div>
+            
+            <div class="mt-8 flex justify-between items-start gap-4">
+                <div class="flex-1">
+                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight flex flex-wrap items-baseline gap-2 md:gap-4">
+                        VOLVO C40 PRESS LAUNCH
+                        <span class="text-xs md:text-sm text-zinc-600 font-medium tracking-normal">沃尔沃C40媒体新闻发布会</span>
+                    </h3>
+                    <p class="text-zinc-500 mt-2 italic text-[10px] md:text-xs uppercase tracking-[0.2em]">Product Launch / Press Event / 2023</p>
+                </div>
+                <button onclick="toggleProject('project2')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest shrink-0">
+                    <span class="view-btn-text"></span>
+                </button>
+            </div>
+
+            <div class="project-details">
+                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
+                <!-- 展开后才显示简介和参数 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
+                    <div class="space-y-6">
+                        <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
+                        <p class="text-lg md:text-2xl font-light leading-relaxed zh-content">
+                            为沃尔沃首款纯电轿跑SUV C40打造新闻发布会视觉系统。围绕“极光”与“北欧峡湾”的自然美学，利用光影变幻模拟北欧自然景观，强调品牌的可持续发展理念与纯电身份。整体设计遵循极致的极简主义风格，营造出静谧而充满力量的活动氛围。
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-widest text-zinc-400 pt-2">
+                        <div class="border-l border-zinc-700 pl-4">
+                            <p class="text-white mb-2 font-bold">Role</p>
+                            <p>Art Direction / Stage Visuals</p>
+                        </div>
+                        <div class="border-l border-zinc-700 pl-4">
+                            <p class="text-white mb-2 font-bold">Core</p>
+                            <p>Scandinavian Sustainability</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 5张图调整为 1+1+1+2 布局 -->
+                <div class="details-grid space-y-8 md:space-y-16">
+                    <!-- 第一张：全宽 -->
+                    <img src="assets/project2/detail1.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 1" onerror="this.style.display='none'">
+                    <!-- 第二张：全宽 -->
+                    <img src="assets/project2/detail2.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 2" onerror="this.style.display='none'">
+                    <!-- 第三张：全宽 -->
+                    <img src="assets/project2/detail3.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 3" onerror="this.style.display='none'">
+                    <!-- 第四、五张：并排 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                        <img src="assets/project2/detail4.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 4" onerror="this.style.display='none'">
+                        <img src="assets/project2/detail5.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 5" onerror="this.style.display='none'">
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="about" class="px-6 md:px-8 py-24 md:py-48 bg-zinc-950">
+        <div class="max-w-5xl reveal">
+            <h2 class="text-[10px] text-zinc-500 uppercase tracking-[0.3em] mb-12 font-bold">Artist Statement</h2>
+            <p class="text-2xl md:text-5xl font-light leading-[1.4] zh-content">
+                在瞬息万变的线下活动中，我追求<br class="hidden md:block">
+                <span class="text-white font-bold underline underline-offset-8 decoration-1">视觉冲击力与执行精度的平衡</span>。<br class="hidden md:block">
+                擅长从全局角度出发，为商业发布会提供从概念到落地的全案视觉支持。
+            </p>
+        </div>
+    </section>
+
+    <section id="contact" class="px-6 md:px-8 py-24 md:py-48 border-t border-zinc-800">
+        <h2 class="text-5xl md:text-8xl font-black uppercase mb-16 hero-title">Let's Connect</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
+            <div>
+                <span class="text-[10px] text-zinc-500 uppercase block mb-6 font-bold tracking-widest">Email</span>
+                <a href="mailto:wwgmmmm@gmail.com" class="text-xl md:text-2xl hover:line-through break-all font-bold uppercase">WWGMMMM@GMAIL.COM</a>
+            </div>
+            <div>
+                <span class="text-[10px] text-zinc-500 uppercase block mb-6 font-bold tracking-widest">WeChat / Phone</span>
+                <span class="text-xl md:text-2xl block font-bold uppercase leading-none tracking-tighter">131 3808 8381</span>
+            </div>
+            <div>
+                <span class="text-[10px] text-zinc-500 uppercase block mb-6 font-bold tracking-widest">Social Network</span>
+                <div class="flex flex-col gap-4">
+                    <a href="#" class="text-sm hover:underline tracking-widest uppercase font-bold">Behance</a>
+                    <a href="#" class="text-sm hover:underline tracking-widest uppercase font-bold">Dribbble</a>
+                    <a href="#" class="text-sm hover:underline tracking-widest uppercase font-bold">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="p-8 text-[9px] md:text-[10px] text-zinc-600 uppercase flex flex-col md:flex-row justify-between items-center gap-4 tracking-tighter border-t border-zinc-900">
+        <span>&copy; 2021 - 2026 Waylon Graphic Design Studio</span>
+        <span class="opacity-50 tracking-[0.2em]">Curated with Precision & AI</span>
+    </footer>
+
+    <script>
+        // 导航栏滚动效果：监听位移
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 30) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // 项目展开切换逻辑
+        function toggleProject(id) {
+            const item = document.getElementById(id);
+            const isExpanded = item.classList.contains('expanded');
+            
+            if (!isExpanded) {
+                item.classList.add('expanded');
+                setTimeout(() => {
+                    const offset = item.getBoundingClientRect().top + window.pageYOffset - 100;
+                    window.scrollTo({ top: offset, behavior: 'smooth' });
+                }, 100);
+            } else {
+                item.classList.remove('expanded');
+                // 平滑滚动回封面顶部
+                const offset = item.getBoundingClientRect().top + window.pageYOffset - 100;
+                window.scrollTo({ top: offset, behavior: 'smooth' });
+            }
+        }
+
+        // 视口观察者：滚动出现动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 鼠标跟随圆点
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // 锚点平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Waylon | Graphic Designer Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.alicdn.com/css2?family=Alibaba+PuHuiTi+2.0:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'Alibaba PuHuiTi', 'sans-serif'],
+              display: ['Alibaba PuHuiTi', 'sans-serif'],
+            },
+            colors: {
+              background: '#f8f7f4',
+              foreground: '#0a0a0a',
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      @font-face {
+        font-family: 'Alibaba PuHuiTi';
+        src: url('https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-45-Light/AlibabaPuHuiTi-3-45-Light.woff2') format('woff2');
+        font-weight: 300;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Alibaba PuHuiTi';
+        src: url('https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-55-Regular/AlibabaPuHuiTi-3-55-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Alibaba PuHuiTi';
+        src: url('https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-65-Medium/AlibabaPuHuiTi-3-65-Medium.woff2') format('woff2');
+        font-weight: 500;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Alibaba PuHuiTi';
+        src: url('https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-85-Bold/AlibabaPuHuiTi-3-85-Bold.woff2') format('woff2');
+        font-weight: 700;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Alibaba PuHuiTi';
+        src: url('https://puhuiti.oss-cn-hangzhou.aliyuncs.com/AlibabaPuHuiTi-3/AlibabaPuHuiTi-3-115-Black/AlibabaPuHuiTi-3-115-Black.woff2') format('woff2');
+        font-weight: 900;
+        font-display: swap;
+      }
+
+      body {
+        background-color: #f8f7f4;
+        color: #0a0a0a;
+        -webkit-font-smoothing: antialiased;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        font-family: 'Inter', 'Alibaba PuHuiTi', sans-serif;
+      }
+      .dark body {
+        background-color: #000000;
+        color: #ffffff;
+      }
+      
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #aaa;
+      }
+
+      /* Modal Animations */
+      .modal-enter {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      .modal-enter-active {
+        opacity: 1;
+        transform: scale(1);
+        transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .modal-exit {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .modal-exit-active {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1), transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+    </style>
+
+    <!-- Import Map for React -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "lucide-react": "https://esm.sh/lucide-react@0.344.0"
+      }
+    }
+    </script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+      import React, { useState, useEffect } from 'react';
+      import { createRoot } from 'react-dom/client';
+      import { ArrowUpRight, Mail, Phone, Instagram, Dribbble, Moon, Sun, X, ChevronRight } from 'lucide-react';
+
+      const projects = [
+        {
+          id: 'project1',
+          title: 'LOTUS TRACK DAY',
+          subtitle: '路特斯赛道挑战日',
+          category: 'Motorsports / Track Event / 2024',
+          cover: 'assets/project1/cover.jpg',
+          description: '为“路特斯赛道挑战日”打造全感官视觉方案。设计灵感源自空气动力学曲线与极致的赛道线条，通过强对比的色彩组合与极具动感的版式设计，传递品牌核心精神。视觉覆盖从Pit房改造到赛道围挡，确保在极速环境下依然具备极强的视觉冲击力。',
+          role: 'Visual Identity / Environmental',
+          concept: 'Aerodynamics & Speed',
+          details: [
+            'assets/project1/detail1.jpg',
+            'assets/project1/detail2.jpg',
+            'assets/project1/detail3.jpg'
+          ]
+        },
+        {
+          id: 'project2',
+          title: 'VOLVO C40 PRESS LAUNCH',
+          subtitle: '沃尔沃C40媒体新闻发布会',
+          category: 'Product Launch / Press Event / 2023',
+          cover: 'assets/project2/cover.jpg',
+          description: '为沃尔沃首款纯电轿跑SUV C40打造新闻发布会视觉系统。围绕“极光”与“北欧峡湾”的自然美学，利用光影变幻模拟北欧自然景观，强调品牌的可持续发展理念与纯电身份。整体设计遵循极致的极简主义风格，营造出静谧而充满力量的活动氛围。',
+          role: 'Art Direction / Stage Visuals',
+          concept: 'Scandinavian Sustainability',
+          details: [
+            'assets/project2/detail1.jpg',
+            'assets/project2/detail2.jpg',
+            'assets/project2/detail3.jpg',
+            'assets/project2/detail4.jpg',
+            'assets/project2/detail5.jpg'
+          ]
+        }
+      ];
+
+      function App() {
+        const [darkMode, setDarkMode] = useState(false);
+        const [selectedProject, setSelectedProject] = useState(null);
+
+        useEffect(() => {
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setDarkMode(true);
+          }
+        }, []);
+
+        useEffect(() => {
+          if (darkMode) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }, [darkMode]);
+
+        const toggleTheme = () => setDarkMode(!darkMode);
+
+        return (
+          <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-black text-white' : 'bg-[#f8f7f4] text-[#0a0a0a]'}`}>
+            
+            {/* Navigation */}
+            <nav className="fixed top-0 left-0 w-full p-6 md:p-8 flex justify-between items-center z-50 mix-blend-difference text-white">
+              <div className="font-bold text-xl tracking-tighter uppercase">Waylon / Design.</div>
+              <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-white/10 transition">
+                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+            </nav>
+
+            {/* Hero Section */}
+            <header className="px-6 md:px-8 pt-40 pb-20 md:pb-32 min-h-[80vh] flex flex-col justify-end">
+              <h1 className="text-[15vw] leading-[0.8] font-black uppercase tracking-tighter mb-12">
+                Graphic<br />Designer
+              </h1>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                <p className="text-lg md:text-xl max-w-md leading-relaxed opacity-80 font-light">
+                  专注发布会、车展及各类商业会展的视觉设计。<br />
+                  将空间叙事与视觉逻辑深度融合，创造无可替代的感官体验。
+                </p>
+                <div className="md:text-right">
+                  <div className="text-sm font-bold uppercase tracking-widest opacity-60 mb-2">Portfolio 2021 — 2026</div>
+                  <div className="flex gap-4 md:justify-end">
+                    <a href="mailto:wwgmmmm@gmail.com" className="hover:underline">Email</a>
+                    <a href="#contact" className="hover:underline">Contact</a>
+                  </div>
+                </div>
+              </div>
+            </header>
+
+            {/* Projects Grid */}
+            <section className="px-6 md:px-8 py-20">
+              <div className="grid grid-cols-1 gap-y-32">
+                {projects.map((project, index) => (
+                  <div key={project.id} className="group cursor-pointer" onClick={() => setSelectedProject(project)}>
+                    <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-gray-100 dark:bg-zinc-900 mb-8">
+                      <img 
+                        src={project.cover} 
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        onError={(e) => {
+                          e.target.onerror = null; 
+                          e.target.src = `https://placehold.co/1200x800/1a1a1a/FFF?text=${project.title}`;
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+                      <div className="absolute top-6 right-6 bg-white text-black px-3 py-1 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                        View Project
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4 border-b border-gray-200 dark:border-zinc-800 pb-8">
+                      <div>
+                        <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tight mb-2">
+                          {project.title}
+                        </h2>
+                        <p className="text-lg text-gray-500 dark:text-zinc-400">{project.subtitle}</p>
+                      </div>
+                      <div className="text-sm font-mono uppercase tracking-widest opacity-60">
+                        {project.category}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* About / Contact */}
+            <section id="contact" className="px-6 md:px-8 py-32 bg-gray-100 dark:bg-zinc-900 mt-20">
+              <div className="max-w-4xl mx-auto">
+                <h2 className="text-[12vw] font-black uppercase tracking-tighter leading-none mb-16">
+                  Let's<br />Connect
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                  <div>
+                    <h3 className="text-sm font-bold uppercase tracking-widest mb-6 opacity-50">Contact Info</h3>
+                    <ul className="space-y-4 text-xl md:text-2xl font-medium">
+                      <li>
+                        <a href="mailto:wwgmmmm@gmail.com" className="flex items-center gap-3 hover:opacity-60 transition">
+                          <Mail size={24} /> wwgmmmm@gmail.com
+                        </a>
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <Phone size={24} /> 131 3808 8381
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-sm font-bold uppercase tracking-widest mb-6 opacity-50">Socials</h3>
+                    <div className="flex gap-6">
+                      <a href="#" className="p-4 bg-white dark:bg-zinc-800 rounded-full hover:scale-110 transition">
+                        <Instagram size={24} />
+                      </a>
+                      <a href="#" className="p-4 bg-white dark:bg-zinc-800 rounded-full hover:scale-110 transition">
+                        <Dribbble size={24} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <footer className="p-8 text-center text-xs uppercase tracking-widest opacity-40">
+              &copy; 2021 - 2026 Waylon Graphic Design Studio
+            </footer>
+
+            {/* Project Modal */}
+            {selectedProject && (
+              <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-0 md:p-8">
+                <div 
+                  className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+                  onClick={() => setSelectedProject(null)}
+                />
+                
+                <div className="relative bg-white dark:bg-[#0f0f0f] w-full max-w-5xl h-[90vh] md:h-auto md:max-h-[90vh] overflow-y-auto rounded-t-2xl md:rounded-2xl shadow-2xl flex flex-col animate-[modal-enter_0.3s_ease-out]">
+                  
+                  <button 
+                    onClick={() => setSelectedProject(null)}
+                    className="absolute top-6 right-6 p-2 bg-gray-100 dark:bg-zinc-800 rounded-full hover:rotate-90 transition z-10"
+                  >
+                    <X size={20} />
+                  </button>
+
+                  <div className="p-8 md:p-16">
+                    <div className="mb-12">
+                      <div className="text-xs font-bold uppercase tracking-[0.2em] opacity-50 mb-4">{selectedProject.category}</div>
+                      <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tight mb-2">{selectedProject.title}</h2>
+                      <p className="text-xl md:text-2xl opacity-60 font-light">{selectedProject.subtitle}</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+                      <div className="md:col-span-2">
+                        <h3 className="text-xs font-bold uppercase tracking-widest mb-4 opacity-50">Project Brief</h3>
+                        <p className="text-lg leading-relaxed text-justify opacity-90">{selectedProject.description}</p>
+                      </div>
+                      <div className="space-y-8">
+                        <div>
+                          <h3 className="text-xs font-bold uppercase tracking-widest mb-2 opacity-50">Role</h3>
+                          <p className="font-medium">{selectedProject.role}</p>
+                        </div>
+                        <div>
+                          <h3 className="text-xs font-bold uppercase tracking-widest mb-2 opacity-50">Concept</h3>
+                          <p className="font-medium">{selectedProject.concept}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-8">
+                      {selectedProject.details.map((img, idx) => (
+                        <img 
+                          key={idx}
+                          src={img} 
+                          alt="Detail" 
+                          className="w-full h-auto rounded-sm bg-zinc-100 dark:bg-zinc-900"
+                          onError={(e) => e.target.style.display = 'none'}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      const root = createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

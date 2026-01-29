@@ -331,8 +331,8 @@
                  <button onClick={toggleTheme} className="hover:opacity-50 transition">
                    {darkMode ? <Sun size={20} /> : <Moon size={20} />}
                  </button>
-                 <div className="text-[10px] uppercase tracking-widest font-bold -mt-1 border border-zinc-900 dark:border-zinc-300 rounded-none px-2 py-1 bg-transparent">
-                   [ 2016 — 2026 ]
+                 <div className="text-[10px] uppercase tracking-widest font-bold -mt-1 bg-transparent">
+                   2016 — 2026
                  </div>
               </div>
             </header>
@@ -423,7 +423,7 @@
                     {skills.map((s, idx) => (
                       <div key={idx} className="flex items-center gap-6">
                         <div className="w-40 md:w-48 shrink-0 text-[10px] uppercase tracking-widest font-bold opacity-70">{s.label}</div>
-                        <div className="flex-1 h-3 md:h-4 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+                        <div className="w-56 md:w-80 h-3 md:h-4 rounded-none border border-zinc-900 dark:border-zinc-300 bg-transparent overflow-hidden">
                           <div className="h-full bg-zinc-900 dark:bg-white" style={{ width: `${s.level}%` }}></div>
                         </div>
                         <div className="w-10 text-xs opacity-60 text-right">{s.level}%</div>

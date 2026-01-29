@@ -200,6 +200,7 @@
         { label: 'BLENDER', level: 65 },
         { label: 'KEYNOTE', level: 88 },
       ];
+      const years = [2026, 2025, 2024, 2023, 2022, 2021];
 
       const projects = [
         {
@@ -292,6 +293,7 @@
         const [darkMode, setDarkMode] = useState(false);
         const [selectedProject, setSelectedProject] = useState(null);
         const [hoveredProject, setHoveredProject] = useState(null);
+        const [selectedYear, setSelectedYear] = useState(null);
         const homeRef = useRef(null);
 
         useEffect(() => {
@@ -369,39 +371,69 @@
 
                 {/* Right: Project List */}
                 <div className="lg:col-span-7 project-list pl-2 md:pl-4 -ml-2 md:-ml-8">
-                  <div className="text-[10px] uppercase tracking-widest opacity-60 font-bold mb-4">Showreel</div>
-                  {projects.map((project) => (
+                  <div className="text-[10px] uppercase tracking-widest opacity-60 font-bold mb-4">
+                    {!selectedYear ? 'Years' : (
+                      <span className="flex items-center gap-2">
+                        <button className="hover:underline" onClick={() => setSelectedYear(null)}>Years</button>
+                        <span>/</span>
+                        <span>{selectedYear}</span>
+                      </span>
+                    )}
+                  </div>
+                  {!selectedYear && years.map((y) => (
                     <div 
-                      key={project.id}
+                      key={y}
                       className="project-item group relative py-10 border-b border-zinc-200 dark:border-zinc-800 cursor-pointer flex items-baseline gap-6 md:gap-10"
-                      onMouseEnter={() => {}}
-                      onMouseLeave={() => {}}
-                      onClick={() => setSelectedProject(project)}
+                      onClick={() => setSelectedYear(y)}
                     >
                       <span className="text-xs font-mono opacity-40 group-hover:text-red-500 transition-colors">
-                        {project.id}
+                        {y}
                       </span>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 whitespace-normal">
-                          {project.title}
+                          {y}
                         </h3>
-                        <div className="flex flex-wrap gap-3 mt-3 opacity-50 text-[10px] uppercase tracking-widest">
-                           <span>{project.year}</span>
-                           <span>/</span>
-                           <span>{project.category}</span>
-                        </div>
                       </div>
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
                         <ArrowRight size={32} strokeWidth={1} />
                       </div>
                     </div>
                   ))}
-                  
-                  {/* More items placeholder */}
-                  <div className="py-8 border-b border-zinc-200 dark:border-zinc-800 opacity-30 flex items-baseline gap-4 md:gap-8">
-                    <span className="text-xs font-mono">03</span>
-                    <div className="text-2xl md:text-4xl font-bold uppercase tracking-tight">Coming Soon</div>
-                  </div>
+                  {selectedYear && (() => {
+                    const visible = projects.filter(p => Number(p.year) === Number(selectedYear));
+                    if (visible.length === 0) {
+                      return (
+                        <div className="py-8 border-b border-zinc-200 dark:border-zinc-800 opacity-30 flex items-baseline gap-4 md:gap-8">
+                          <span className="text-xs font-mono">00</span>
+                          <div className="text-2xl md:text-4xl font-bold uppercase tracking-tight">Coming Soon</div>
+                        </div>
+                      );
+                    }
+                    return visible.map((project) => (
+                      <div 
+                        key={project.id}
+                        className="project-item group relative py-10 border-b border-zinc-200 dark:border-zinc-800 cursor-pointer flex items-baseline gap-6 md:gap-10"
+                        onClick={() => setSelectedProject(project)}
+                      >
+                        <span className="text-xs font-mono opacity-40 group-hover:text-red-500 transition-colors">
+                          {project.id}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 whitespace-normal">
+                            {project.title}
+                          </h3>
+                          <div className="flex flex-wrap gap-3 mt-3 opacity-50 text-[10px] uppercase tracking-widest">
+                             <span>{project.year}</span>
+                             <span>/</span>
+                             <span>{project.category}</span>
+                          </div>
+                        </div>
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity -translate-x-4 group-hover:translate-x-0 duration-300">
+                          <ArrowRight size={32} strokeWidth={1} />
+                        </div>
+                      </div>
+                    ));
+                  })()}
                 </div>
 
               </div>

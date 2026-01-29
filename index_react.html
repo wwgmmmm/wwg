@@ -316,14 +316,14 @@
             <CustomCursor />
             
             {/* Header */}
-            <header className="fixed top-0 w-full p-6 md:p-12 flex justify-between items-start z-40 pointer-events-none mix-blend-difference text-white bg-white/20 dark:bg-black/20 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 md:bg-transparent md:backdrop-blur-0 md:border-0">
+            <header className="fixed top-0 w-full p-6 md:p-12 flex justify-between items-start z-40 pointer-events-none bg-background dark:bg-[#0a0a0a] backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
               <div className="pointer-events-auto">
                 <h1 className="text-xl font-bold tracking-tighter uppercase leading-none">
                   Waylon<br/>Design.
                 </h1>
                 <div className="mt-4 text-[10px] uppercase tracking-widest opacity-60 font-medium">
                   Graphic Designer<br/>
-                  Based in China
+                  Freelancer
                 </div>
               </div>
 
@@ -331,7 +331,7 @@
                  <button onClick={toggleTheme} className="hover:opacity-50 transition">
                    {darkMode ? <Sun size={20} /> : <Moon size={20} />}
                  </button>
-                 <div className="text-[10px] uppercase tracking-widest font-bold -mt-1">
+                 <div className="text-[10px] uppercase tracking-widest font-bold -mt-1 border border-zinc-900 dark:border-zinc-300 rounded-none px-2 py-1 bg-transparent">
                    [ 2016 — 2026 ]
                  </div>
               </div>
@@ -351,8 +351,10 @@
                   </div>
                   <div className="pointer-events-auto">
                     <p className="text-sm md:text-base leading-relaxed max-w-md opacity-80 zh-text">
-                      专注发布会、车展及各类商业会展的视觉设计。<br/>
-                      致力于将空间叙事与视觉逻辑深度融合，通过精准的设计语言为每一场活动创造无可替代的感官体验。
+                      发布会、展览、会议等多类型线下活动的视觉设计<br/>
+                      服务行业覆盖汽车、工业、时尚快消等<br/>
+                      致力于将空间叙事与视觉逻辑深度融合<br/>
+                      通过精准的设计语言为每一场活动创造独特的视觉体验
                     </p>
                     <div className="mt-8 flex gap-6 text-xs uppercase tracking-widest font-bold">
                        <a href="mailto:wwgmmmm@gmail.com" className="hover:underline flex items-center gap-1">
@@ -366,7 +368,8 @@
                 </div>
 
                 {/* Right: Project List */}
-                <div className="lg:col-span-7 project-list pl-4 md:pl-6">
+                <div className="lg:col-span-7 project-list pl-2 md:pl-4 -ml-2 md:-ml-8">
+                  <div className="text-[10px] uppercase tracking-widest opacity-60 font-bold mb-4">Showreel</div>
                   {projects.map((project) => (
                     <div 
                       key={project.id}
@@ -379,7 +382,7 @@
                         {project.id}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 whitespace-normal" style={{ textWrap: 'balance' }}>
+                        <h3 className="text-3xl md:text-5xl font-bold uppercase tracking-tight group-hover:translate-x-2 transition-transform duration-300 whitespace-normal">
                           {project.title}
                         </h3>
                         <div className="flex flex-wrap gap-3 mt-3 opacity-50 text-[10px] uppercase tracking-widest">
@@ -415,7 +418,7 @@
                   </div>
                 </div>
                 {/* Right: Skills */}
-                <div className="lg:col-span-7">
+                <div className="lg:col-span-7 -ml-2 md:-ml-8">
                   <div className="space-y-6">
                     {skills.map((s, idx) => (
                       <div key={idx} className="flex items-center gap-6">

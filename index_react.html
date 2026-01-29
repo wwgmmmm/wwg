@@ -207,7 +207,7 @@
         },
         {
           id: '02',
-          title: 'VOLVO C40 PRESS LAUNCH',
+          title: 'VOLVO C40 LAUNCH EVENT',
           subtitle: '沃尔沃C40媒体新闻发布会',
           year: '2021',
           category: 'Product Launch',
@@ -312,11 +312,11 @@
                 </div>
               </div>
 
-              <div className="text-right pointer-events-auto flex flex-col items-end gap-6">
+              <div className="text-right pointer-events-auto flex flex-col items-end gap-3">
                  <button onClick={toggleTheme} className="hover:opacity-50 transition">
                    {darkMode ? <Sun size={20} /> : <Moon size={20} />}
                  </button>
-                 <div className="text-[10px] uppercase tracking-widest font-bold">
+                 <div className="text-[10px] uppercase tracking-widest font-bold -mt-1">
                    [ 2016 — 2026 ]
                  </div>
               </div>
@@ -325,16 +325,7 @@
             {/* Main Content - List Layout */}
             <main className="flex-1 flex flex-col justify-center px-6 md:px-12 py-32 md:py-0 min-h-screen relative z-10">
               
-              {/* Background Image Preview on Hover */}
-              <div className="fixed inset-0 z-[-1] transition-opacity duration-700 pointer-events-none" style={{ opacity: hoveredProject ? 0.15 : 0 }}>
-                 {hoveredProject && (
-                   <img 
-                     src={hoveredProject.cover} 
-                     className="w-full h-full object-cover grayscale"
-                     alt="Background Preview"
-                   />
-                 )}
-              </div>
+              
 
               <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 
@@ -367,8 +358,8 @@
                     <div 
                       key={project.id}
                       className="project-item group relative py-8 border-b border-zinc-200 dark:border-zinc-800 cursor-pointer flex items-baseline gap-4 md:gap-8"
-                      onMouseEnter={() => setHoveredProject(project)}
-                      onMouseLeave={() => setHoveredProject(null)}
+                      onMouseEnter={() => {}}
+                      onMouseLeave={() => {}}
                       onClick={() => setSelectedProject(project)}
                     >
                       <span className="text-xs font-mono opacity-40 group-hover:text-red-500 transition-colors">

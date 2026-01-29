@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waylon | Portfolio — Young Style</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;900&display=swap');
+    :root {
+      --bg: #0a0a0a;
+      --text: #ffffff;
+      --panel-bg: #0f0f0f;
+      --panel-text: #ffffff;
+      --border: rgba(255,255,255,0.12);
+      --glass-bg: rgba(255,255,255,0.10);
+      --glass-bg-footer: rgba(255,255,255,0.18);
+    }
+    [data-theme="light"] {
+      --bg: #f8f7f4;
+      --text: #0a0a0a;
+      --panel-bg: #ffffff;
+      --panel-text: #0a0a0a;
+      --border: rgba(0,0,0,0.12);
+      --glass-bg: rgba(0,0,0,0.08);
+      --glass-bg-footer: rgba(0,0,0,0.18);
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    .brand-mast {
+      font-family: 'Syncopate', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 0.85;
+    }
+    .side-rail {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+    .preview-panel img {
+      object-fit: cover;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 1rem;
+    }
+    .modal.show { display: flex; }
+    .modal .backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(6px);
+    }
+    .modal .panel {
+      position: relative;
+      background: var(--panel-bg);
+      color: var(--panel-text);
+      width: 100%;
+      max-width: 1000px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 0.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .modal .panel-inner { padding: 2rem; }
+    .modal .close-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 999px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .zh-content {
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      text-align: left;
+      line-break: strict;
+    }
+    .project-list:hover .project-row {
+      opacity: 0.3;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .project-list:hover .project-row:hover {
+      opacity: 1;
+      transform: translateX(10px);
+    }
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      border: 1px solid var(--border);
+    }
+    .footer-glass {
+      background: var(--glass-bg-footer);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="fixed left-0 top-0 bottom-0 w-12 border-r" style="border-color: var(--border)">
+    <div class="h-full flex flex-col items-center justify-between py-6">
+      <div class="text-[10px] uppercase tracking-widest opacity-50 side-rail">Home</div>
+      <div class="flex flex-col items-center gap-4">
+        <a href="#contact" class="w-2 h-2 rounded-sm" style="background: var(--text)"></a>
+        <button id="theme-toggle" class="w-7 h-7 flex items-center justify-center rounded-full border" style="border-color: var(--border)">
+          <span id="theme-icon" class="inline-block w-4 h-4"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header class="pl-16 pr-6 md:pr-12 py-6 flex justify-between items-start">
+    <div>
+      <div class="text-xs uppercase tracking-widest opacity-60">Creative Designer</div>
+      <h1 class="text-2xl font-bold uppercase leading-none">Waylon<br/>Design.</h1>
+    </div>
+    <div class="text-right">
+      <div class="text-[10px] uppercase tracking-widest opacity-60">Selected Works</div>
+      <div class="text-[10px] uppercase tracking-widest font-bold">2016 — 2026</div>
+    </div>
+  </header>
+
+  <main class="pl-16 pr-6 md:pr-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <section id="left-col" class="lg:col-span-7">
+        <div class="brand-mast text-[16vw] md:text-[10vw] font-black uppercase opacity-10 select-none mb-6">Waylon</div>
+        <div class="border-y py-4 mb-6" style="border-color: var(--border)">
+          <div class="text-xs uppercase tracking-widest opacity-60">Selected Projects</div>
+        </div>
+        <div id="project-list" class="project-list space-y-2"></div>
+      </section>
+      <aside id="right-col" class="lg:col-span-5">
+        <div id="carousel-box" class="w-full border rounded-sm overflow-hidden" style="border-color: var(--border)">
+          <img id="carousel-image" src="" alt="Preview" class="w-full h-full object-cover grayscale" />
+        </div>
+        <div class="mt-3 text-[10px] uppercase tracking-widest opacity-60 glass p-3 md:p-4 rounded-sm">Hover project to preview, click to view</div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="fixed bottom-0 left-12 right-0 p-4 md:p-6 text-[10px] uppercase tracking-widest opacity-50 flex justify-between items-end">
+    <div>Scroll to explore</div>
+    <div>&copy; WAYLON 2026</div>
+  </footer>
+
+  <section id="details" class="px-16 pr-6 md:pr-12 py-16 border-t" style="border-color: var(--border)">
+    <div class="max-w-5xl" id="details-content"></div>
+  </section>
+
+  <script>
+    function renderThemeIcon(theme) {
+      const icon = document.getElementById('theme-icon');
+      if (!icon) return;
+      if (theme === 'light') {
+        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5" stroke-width="2"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke-width="2" stroke-linecap="round"/></svg>';
+      } else {
+        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+    }
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      renderThemeIcon(theme);
+    }
+    function getInitialTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved) return saved;
+      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      return prefersLight ? 'light' : 'dark';
+    }
+    const initialTheme = getInitialTheme();
+    applyTheme(initialTheme);
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+      });
+    }
+
+    const projects = [
+      {
+        id: '01',
+        title: 'LOTUS TRACK DAY',
+        subtitle: '路特斯赛道挑战日',
+        year: '2021',
+        category: 'Motorsports',
+        cover: 'assets/project1/cover.jpg',
+        description: '为“路特斯赛道挑战日”打造全感官视觉方案。设计灵感源自空气动力学曲线与极致的赛道线条，通过强对比的色彩组合与极具动感的版式设计，传递品牌核心精神。视觉覆盖从Pit房改造到赛道围挡，确保在极速环境下依然具备极强的视觉冲击力。',
+        role: 'Visual Identity / Environmental',
+        concept: 'Aerodynamics & Speed',
+        details: [
+          'assets/project1/detail1.jpg',
+          'assets/project1/detail2.jpg',
+          'assets/project1/detail3.jpg'
+        ]
+      },
+      {
+        id: '02',
+        title: 'VOLVO C40 PRESS LAUNCH',
+        subtitle: '沃尔沃C40媒体新闻发布会',
+        year: '2021',
+        category: 'Product Launch',
+        cover: 'assets/project2/cover.jpg',
+        description: '为沃尔沃首款纯电轿跑SUV C40打造新闻发布会视觉系统。围绕“极光”与“北欧峡湾”的自然美学，利用光影变幻模拟北欧自然景观，强调品牌的可持续发展理念与纯电身份。整体设计遵循极致的极简主义风格，营造出静谧而充满力量的活动氛围。',
+        role: 'Art Direction / Stage Visuals',
+        concept: 'Scandinavian Sustainability',
+        details: [
+          'assets/project2/detail1.jpg',
+          'assets/project2/detail2.jpg',
+          'assets/project2/detail3.jpg',
+          'assets/project2/detail4.jpg',
+          'assets/project2/detail5.jpg'
+        ]
+      },
+      {
+        id: '03',
+        title: 'VOLVO XC60 LAUNCH EVENT',
+        subtitle: '沃尔沃新款XC60上市发布会',
+        year: '2021',
+        category: 'Product Launch',
+        cover: 'assets/project3/cover.jpg',
+        description: '为沃尔沃新款 XC60 上市发布会构建整体视觉系统，通过极简的北欧设计语言结合光影与材质的克制表达，突出产品的安全、科技与质感。场景化叙事串联舞台视觉与品牌核心信息，确保不同环节在节奏与符号上保持一致。',
+        role: 'Art Direction / Stage Visuals',
+        concept: 'Scandinavian Precision',
+        details: [
+          'assets/project3/detail1.jpg',
+          'assets/project3/detail2.jpg',
+          'assets/project3/detail3.jpg',
+          'assets/project3/detail4.jpg'
+        ]
+      }
+    ];
+
+    function createDetailsLayout(project) {
+      const imgs = project.details || [];
+      let html = '';
+      if (imgs.length === 3) {
+        html += `<img src="${imgs[0]}" class="w-full h-auto" alt="detail">`;
+        html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"><img src="${imgs[1]}" class="w-full h-auto" alt="detail"><img src="${imgs[2]}" class="w-full h-auto" alt="detail"></div>`;
+      } else if (imgs.length === 4) {
+        html += `<img src="${imgs[0]}" class="w-full h-auto" alt="detail">`;
+        html += `<img src="${imgs[1]}" class="w-full h-auto" alt="detail">`;
+        html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"><img src="${imgs[2]}" class="w-full h-auto" alt="detail"><img src="${imgs[3]}" class="w-full h-auto" alt="detail"></div>`;
+      } else if (imgs.length >= 5) {
+        html += `<img src="${imgs[0]}" class="w-full h-auto" alt="detail">`;
+        html += `<img src="${imgs[1]}" class="w-full h-auto" alt="detail">`;
+        html += `<img src="${imgs[2]}" class="w-full h-auto" alt="detail">`;
+        html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"><img src="${imgs[3]}" class="w-full h-auto" alt="detail"><img src="${imgs[4]}" class="w-full h-auto" alt="detail"></div>`;
+      } else {
+        html = imgs.map(src => `<img src="${src}" class="w-full h-auto" alt="detail">`).join('');
+      }
+      return html;
+    }
+
+    function openDetails(project) {
+      const container = document.getElementById('details-content');
+      const section = document.getElementById('details');
+      if (!container || !section) return;
+      container.innerHTML = `
+        <div class="w-full aspect-video md:aspect-[21/9]">
+          <img src="${project.cover}" class="w-full h-full object-cover" alt="${project.title}">
+        </div>
+        <div class="pt-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24 mb-12">
+            <div class="md:col-span-2 space-y-4">
+              <div class="text-[10px] uppercase tracking-widest opacity-60 font-bold">Project Brief</div>
+              <p class="text-lg md:text-xl font-light zh-content">${project.description}</p>
+            </div>
+            <div class="space-y-6 text-sm">
+              <div>
+                <div class="text-[10px] uppercase tracking-widest opacity-60 font-bold mb-2">Role</div>
+                <p>${project.role}</p>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-widest opacity-60 font-bold mb-2">Concept</div>
+                <p>${project.concept}</p>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-widest opacity-60 font-bold mb-2">Year</div>
+                <p>${project.year}</p>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-8 md:space-y-16">
+            ${createDetailsLayout(project)}
+          </div>
+        </div>
+      `;
+      section.scrollIntoView({ behavior: 'smooth' });
+      const footer = document.querySelector('footer');
+      if (footer) footer.classList.add('footer-glass');
+    }
+
+    function renderProjects() {
+      const list = document.getElementById('project-list');
+      if (!list) return;
+      list.innerHTML = '';
+      projects.forEach((p, idx) => {
+        const row = document.createElement('div');
+        row.className = 'project-row group relative py-5 border-b cursor-pointer flex items-baseline gap-4 md:gap-8';
+        row.style.borderColor = 'var(--border)';
+        row.innerHTML = `
+          <span class="text-xs opacity-40 group-hover:text-red-500 transition">${p.id}</span>
+          <div class="flex-1">
+            <div class="row-title text-2xl md:text-4xl font-bold uppercase tracking-tight group-hover:translate-x-2 transition">${p.title}</div>
+            <div class="row-meta flex flex-wrap gap-3 mt-2 opacity-60 text-[10px] uppercase tracking-widest">
+              <span>${p.year}</span><span>/</span><span>${p.category}</span>
+            </div>
+          </div>
+          <div class="opacity-0 group-hover:opacity-100 transition -translate-x-4 group-hover:translate-x-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+        `;
+        row.addEventListener('mouseenter', () => {
+          stopCarousel();
+          const img = document.getElementById('carousel-image');
+          if (img) img.src = p.cover;
+        });
+        row.addEventListener('mouseleave', () => {
+          startCarousel();
+        });
+        row.addEventListener('click', () => openDetails(p));
+        list.appendChild(row);
+      });
+      const first = projects[0];
+      const img = document.getElementById('carousel-image');
+      if (first && img) img.src = first.cover;
+      alignPreviewToFirstRow();
+      startCarousel();
+    }
+
+    const covers = projects.map(p => p.cover);
+    let carouselIndex = 0;
+    let carouselTimer = null;
+    function startCarousel() {
+      stopCarousel();
+      carouselTimer = setInterval(() => {
+        carouselIndex = (carouselIndex + 1) % covers.length;
+        const img = document.getElementById('carousel-image');
+        if (img) img.src = covers[carouselIndex];
+      }, 3000);
+    }
+    function stopCarousel() {
+      if (carouselTimer) {
+        clearInterval(carouselTimer);
+        carouselTimer = null;
+      }
+    }
+
+    function alignPreviewToFirstRow() {
+      const leftCol = document.getElementById('left-col');
+      const firstRow = document.querySelector('#project-list .project-row');
+      const box = document.getElementById('carousel-box');
+      if (!leftCol || !firstRow || !box) return;
+      const leftRect = leftCol.getBoundingClientRect();
+      const titleEl = firstRow.querySelector('.row-title');
+      const metaEl = firstRow.querySelector('.row-meta');
+      const titleRect = titleEl ? titleEl.getBoundingClientRect() : firstRow.getBoundingClientRect();
+      const metaRect = metaEl ? metaEl.getBoundingClientRect() : firstRow.getBoundingClientRect();
+      const offsetY = 8;
+      const topOffset = Math.max(0, (titleRect.top - leftRect.top) + offsetY);
+      const targetHeight = Math.max(220, Math.round((metaRect.bottom - leftRect.top) - topOffset));
+      box.style.marginTop = `${topOffset}px`;
+      box.style.height = `${targetHeight}px`;
+    }
+    window.addEventListener('resize', () => {
+      alignPreviewToFirstRow();
+    });
+
+    renderProjects();
+  </script>
+</body>
+</html>

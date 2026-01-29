@@ -370,18 +370,18 @@
                 </div>
 
                 {/* Right: Project List */}
-                <div className="lg:col-span-7 project-list pl-2 md:pl-4 -ml-2 md:-ml-8">
+                <div className="lg:col-span-7 project-list pl-2 md:pl-4 pr-2 md:pr-4 -ml-2 md:-ml-8">
                   <div className="text-[10px] uppercase tracking-widest opacity-60 font-bold mb-4 flex items-center justify-between">
                     {!selectedYear ? 'Showreel' : (
                       <>
-                        <span className="flex items-center gap-2">
+                        <span className="flex items-center gap-2 min-w-0">
                           <span>Showreel</span>
                           <span>/</span>
                           <span>{selectedYear}</span>
                         </span>
-                        <button className="hover:opacity-60 transition pointer-events-auto" onClick={() => setSelectedYear(null)} aria-label="Back">
-                          <span className="inline-block rotate-180">
-                            <ArrowRight size={16} strokeWidth={1} />
+                        <button className="hover:opacity-60 transition pointer-events-auto shrink-0 ml-4" onClick={() => setSelectedYear(null)} aria-label="Back">
+                          <span className="inline-block rotate-180 align-middle">
+                            <ArrowRight size={18} strokeWidth={1} />
                           </span>
                         </button>
                       </>

@@ -64,9 +64,10 @@
     .hero h1 span { display: block; color: transparent; -webkit-text-stroke: 1px rgba(243,243,239,.72); }
     .hero-side { padding-bottom: 10px; }
     .hero-side p { margin: 0 0 42px; max-width: 28ch; color: #c6c6c0; font-size: clamp(19px, 2vw, 30px); line-height: 1.18; }
-    .disciplines { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-    .disciplines li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 11px; text-transform: uppercase; }
-    .disciplines b { color: var(--text); font-weight: 600; }
+    .project-types { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .project-types li { min-width: 0; padding: 11px 12px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .project-types b { display: block; color: var(--text); font-size: 14px; font-weight: 600; }
+    .project-types span { display: block; margin-top: 2px; color: var(--muted); font-size: 9px; text-transform: uppercase; }
     .section { padding: clamp(90px, 11vw, 170px) 0; }
     .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 48px; }
     .section-heading h2 { margin: 0; font-size: clamp(42px, 7vw, 108px); line-height: .9; text-transform: uppercase; }
@@ -146,7 +147,8 @@
     }
     @media (max-width: 520px) {
       .hero-side { grid-template-columns: 1fr; }
-      .disciplines { display: none; }
+      .project-types { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .project-types li { padding: 9px 8px; }
       .section-heading { align-items: end; }
       .section-heading p { max-width: 12ch; text-align: right; }
       .work-info { grid-template-columns: 48px 1fr; }
@@ -179,8 +181,8 @@
       <div class="hero-grid page">
         <div><p class="hero-kicker">Visual Designer based in BEIJING</p><h1>Waylon<span>Visual Designer</span></h1></div>
         <div class="hero-side">
-          <p>Shaping automotive brands through image, space and motion.</p>
-          <ul class="disciplines"><li><b>Automotive</b><span>Branding</span></li><li><b>Campaign</b><span>Visual</span></li><li><b>AI</b><span>Exploration</span></li></ul>
+          <p>Visual direction for live brand experiences.</p>
+          <ul class="project-types"><li><b>发布会</b><span>Launch</span></li><li><b>会议</b><span>Conference</span></li><li><b>展览</b><span>Exhibition</span></li><li><b>快闪</b><span>Pop-up</span></li><li><b>试驾</b><span>Test Drive</span></li><li><b>其他</b><span>Others</span></li></ul>
         </div>
       </div>
     </section>

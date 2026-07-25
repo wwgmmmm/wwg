@@ -1,542 +1,285 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waylon | Graphic Designer Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;900&display=swap');
-        
-        :root {
-            --bg: #0a0a0a;
-            --text: #ffffff;
-            --nav-scrolled-bg: rgba(0, 0, 0, 0.6);
-            --nav-border: rgba(255, 255, 255, 0.1);
-            --panel-bg: #0f0f0f;
-            --panel-text: #ffffff;
-            --backdrop: rgba(0, 0, 0, 0.6);
-            --img-placeholder: #1a1a1a;
-        }
-        [data-theme="light"] {
-            --bg: #f8f7f4;
-            --text: #0a0a0a;
-            --nav-scrolled-bg: rgba(255, 255, 255, 0.6);
-            --nav-border: rgba(0, 0, 0, 0.1);
-            --panel-bg: #ffffff;
-            --panel-text: #0a0a0a;
-            --backdrop: rgba(255, 255, 255, 0.6);
-            --img-placeholder: #f2f2f2;
-        }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        .hero-title {
-            font-family: 'Syncopate', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: -0.05em;
-            line-height: 0.85;
-        }
-
-        .zh-content {
-            word-break: normal;
-            overflow-wrap: anywhere;
-            text-align: left;
-            line-break: strict;
-            text-wrap: pretty;
-        }
-
-        /* 导航栏动态背景 - 增强毛玻璃 */
-        nav {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        nav.scrolled {
-            background-color: var(--nav-scrolled-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            padding-top: 1.25rem !important;
-            padding-bottom: 1.25rem !important;
-            border-bottom: 1px solid var(--nav-border);
-        }
-
-        /* 滚动显示动画 */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 作品详情折叠逻辑 */
-        .project-details {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #0f0f0f;
-        }
-        .work-item.expanded .project-details {
-            max-height: 12000px; 
-            opacity: 1;
-        }
-        .work-item.expanded .view-btn-text::after {
-            content: "CLOSE";
-        }
-        .work-item:not(.expanded) .view-btn-text::after {
-            content: "VIEW CASE";
-        }
-
-        /* 图片预加载背景 */
-        .img-placeholder {
-            background: var(--img-placeholder);
-        }
-
-        /* 响应式字体调整 */
-        @media (max-width: 768px) {
-            .hero-title {
-                line-height: 1;
-            }
-            .zh-content {
-                line-height: 1.8;
-            }
-            /* 手机端封面图填满容器 */
-            .img-placeholder img {
-                object-fit: cover !important;
-                object-position: center;
-            }
-            /* 关于区域容器在手机上不限制最大宽度 */
-            #about .max-w-5xl {
-                max-width: none;
-            }
-            /* 顶部品牌文案单行显示 */
-            #main-nav .brand-name {
-                white-space: normal;
-            }
-        }
-        #project-modal .panel-inner .zh-content {
-            font-size: 0.95rem;
-            line-height: 1.9;
-            text-align: left;
-            word-break: keep-all;
-            overflow-wrap: anywhere;
-            max-width: 60ch;
-            margin: 0 auto;
-        }
-        @media (min-width: 768px) {
-            #project-modal .panel-inner .zh-content {
-                font-size: 1.125rem;
-            }
-        }
-
-        #project-modal {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            padding: 1rem;
-        }
-        #project-modal.show {
-            display: flex;
-        }
-        #project-modal .backdrop {
-            position: absolute;
-            inset: 0;
-            background: var(--backdrop);
-            backdrop-filter: blur(6px);
-        }
-        #project-modal .panel {
-            position: relative;
-            background: var(--panel-bg);
-            color: var(--panel-text);
-            width: 100%;
-            max-width: 1000px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border-radius: 0.5rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-        #project-modal .panel-inner {
-            padding: 2rem;
-        }
-        #project-modal .panel-inner img {
-            filter: none !important;
-        }
-        #project-modal .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255,255,255,0.08);
-            color: #fff;
-            border: none;
-            padding: 0.5rem 0.75rem;
-            border-radius: 999px;
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-        /* 关于区块跟随主题切换背景 */
-        #about {
-            background-color: var(--panel-bg);
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Waylon is a visual designer based in China, focused on automotive branding, campaign visuals and brand experiences.">
+  <meta name="theme-color" content="#080808">
+  <title>Waylon | Automotive Visual Designer</title>
+  <style>
+    :root {
+      --bg: #080808;
+      --panel: #101010;
+      --text: #f3f3ef;
+      --muted: #90908a;
+      --line: rgba(255,255,255,.16);
+      --accent: #dfff00;
+      --page: min(100% - 40px, 1520px);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Helvetica Neue", "Source Han Sans SC", "Noto Sans CJK SC", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+    body.modal-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    img { display: block; max-width: 100%; }
+    ::selection { color: #080808; background: var(--accent); }
+    .page { width: var(--page); margin-inline: auto; }
+    .skip-link {
+      position: fixed; top: 10px; left: 10px; z-index: 100;
+      padding: 10px 14px; color: #080808; background: var(--accent);
+      transform: translateY(-160%); transition: transform .2s ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .site-nav {
+      position: fixed; inset: 0 0 auto; z-index: 50; height: 72px;
+      transition: background .3s ease, border-color .3s ease;
+    }
+    .site-nav.scrolled { background: rgba(8,8,8,.86); border-bottom: 1px solid var(--line); backdrop-filter: blur(16px); }
+    .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-size: 20px; font-weight: 800; line-height: 1; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: clamp(18px, 3vw, 42px); font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .nav-links a { position: relative; padding: 8px 0; }
+    .nav-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 3px; height: 1px; background: var(--accent); transition: right .25s ease; }
+    .nav-links a:hover::after, .nav-links a:focus-visible::after { right: 0; }
+    .hero {
+      position: relative; min-height: 100dvh; display: grid; align-items: end;
+      padding: 96px 0 42px; isolation: isolate; overflow: hidden;
+    }
+    #particles { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; opacity: .48; }
+    .hero-glow { position: absolute; right: -5vw; bottom: 4vh; z-index: -1; width: min(56vw, 850px); height: 1px; box-shadow: 0 0 150px 70px rgba(223,255,0,.08); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .34fr); gap: 32px; align-items: end; }
+    .hero-kicker { margin: 0 0 18px; color: var(--accent); font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .hero h1 { margin: 0; max-width: 10ch; font-size: clamp(68px, 11.4vw, 184px); font-weight: 800; line-height: .78; text-transform: uppercase; }
+    .hero h1 span { display: block; color: transparent; -webkit-text-stroke: 1px rgba(243,243,239,.72); }
+    .hero-side { padding-bottom: 10px; }
+    .hero-side p { margin: 0 0 42px; max-width: 28ch; color: #c6c6c0; font-size: clamp(19px, 2vw, 30px); line-height: 1.18; }
+    .disciplines { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+    .disciplines li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 11px; text-transform: uppercase; }
+    .disciplines b { color: var(--text); font-weight: 600; }
+    .section { padding: clamp(90px, 11vw, 170px) 0; }
+    .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 48px; }
+    .section-heading h2 { margin: 0; font-size: clamp(42px, 7vw, 108px); line-height: .9; text-transform: uppercase; }
+    .section-heading p { margin: 0; color: var(--muted); font-size: 13px; }
+    .work-list { display: grid; gap: clamp(90px, 13vw, 190px); }
+    .work { scroll-margin-top: 90px; }
+    .work-visual { position: relative; overflow: hidden; background: var(--panel); aspect-ratio: 21/9; }
+    .work:nth-child(even) .work-visual { width: 86%; margin-left: auto; aspect-ratio: 16/9; }
+    .work-visual img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.015); transition: transform 1s cubic-bezier(.2,.7,.2,1), filter .6s ease; }
+    .work:hover .work-visual img { transform: scale(1.045); }
+    .work-index { position: absolute; top: 18px; left: 18px; display: grid; place-items: center; width: 42px; height: 42px; color: #080808; background: var(--accent); font-size: 12px; font-weight: 800; }
+    .work-copy { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(250px, .7fr); gap: 32px; padding-top: 24px; }
+    .work-title { margin: 0; font-size: clamp(34px, 5vw, 76px); line-height: .9; text-transform: uppercase; overflow-wrap: anywhere; }
+    .work-type { margin: 12px 0 0; color: var(--muted); font-size: 12px; text-transform: uppercase; }
+    .work-info { display: grid; grid-template-columns: 64px 1fr; gap: 20px; align-content: start; }
+    .work-year { color: var(--accent); font-size: 13px; font-weight: 700; }
+    .work-description { margin: 0; color: #bdbdb7; max-width: 46ch; }
+    .work-actions { grid-column: 2; margin-top: 20px; }
+    .case-button, .close-button {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 42px;
+      padding: 0 18px; border: 1px solid var(--line); border-radius: 0; background: transparent;
+      cursor: pointer; font-size: 11px; font-weight: 700; text-transform: uppercase; white-space: nowrap;
+      transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+    .case-button:hover, .case-button:focus-visible { color: #080808; background: var(--accent); border-color: var(--accent); }
+    .case-button:active, .close-button:active { transform: translateY(1px); }
+    .about { border-top: 1px solid var(--line); }
+    .about-grid { display: grid; grid-template-columns: .42fr 1fr; gap: clamp(40px, 9vw, 150px); align-items: start; }
+    .about-mark { color: var(--accent); font-size: clamp(78px, 13vw, 208px); font-weight: 800; line-height: .75; }
+    .about-copy h2 { margin: 0 0 36px; max-width: 17ch; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; }
+    .about-copy p { margin: 0 0 20px; max-width: 52ch; color: #bdbdb7; font-size: clamp(18px, 2vw, 28px); line-height: 1.38; }
+    .services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 36px; margin-top: 60px; border-top: 1px solid var(--line); }
+    .services span { padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; text-transform: uppercase; }
+    .contact { padding-bottom: 48px; }
+    .contact-title { margin: 0; max-width: 12ch; font-size: clamp(52px, 9vw, 140px); font-weight: 800; line-height: .86; text-transform: uppercase; }
+    .contact-title a { display: inline-block; color: var(--accent); border-bottom: .07em solid var(--accent); }
+    .contact-title a:hover { color: var(--text); border-color: var(--text); }
+    .footer { display: flex; justify-content: space-between; gap: 20px; padding: 22px 0 28px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; text-transform: uppercase; }
+    .modal { position: fixed; inset: 0; z-index: 90; display: none; background: rgba(0,0,0,.82); backdrop-filter: blur(10px); padding: 24px; }
+    .modal.open { display: grid; place-items: center; }
+    .modal-panel { width: min(1180px, 100%); max-height: calc(100dvh - 48px); overflow-y: auto; background: #0d0d0d; border: 1px solid var(--line); }
+    .modal-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 22px; background: rgba(13,13,13,.94); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
+    .modal-head h3 { margin: 0; font-size: clamp(20px, 3vw, 34px); text-transform: uppercase; }
+    .close-button { width: 42px; padding: 0; font-size: 22px; }
+    .modal-body { padding: clamp(20px, 4vw, 58px); }
+    .modal-lead { display: grid; grid-template-columns: 1fr .45fr; gap: 40px; margin-bottom: 48px; }
+    .modal-lead p { margin: 0; max-width: 55ch; color: #c3c3bd; font-size: clamp(17px, 2vw, 24px); }
+    .modal-meta { display: grid; gap: 16px; font-size: 12px; color: var(--muted); text-transform: uppercase; }
+    .modal-meta b { display: block; margin-bottom: 3px; color: var(--text); }
+    .gallery { display: grid; gap: 20px; }
+    .gallery img { width: 100%; height: auto; background: var(--panel); }
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    @media (max-width: 800px) {
+      :root { --page: min(100% - 32px, 1520px); }
+      .site-nav { height: 64px; }
+      .nav-links { gap: 16px; font-size: 10px; }
+      .nav-links a:first-child, .nav-links a:nth-child(3) { display: none; }
+      .hero { padding-top: 88px; }
+      .hero-grid, .work-copy, .about-grid, .modal-lead { grid-template-columns: 1fr; }
+      .hero h1 { max-width: 100%; font-size: clamp(50px, 14.5vw, 76px); line-height: .86; }
+      .hero-side { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+      .hero-side p { margin: 0; font-size: 18px; }
+      .work:nth-child(even) .work-visual { width: 100%; }
+      .work-visual, .work:nth-child(even) .work-visual { aspect-ratio: 16/9; }
+      .work-actions { grid-column: auto; }
+      .about-mark { font-size: 104px; }
+      .services { margin-top: 38px; }
+      .modal { padding: 0; }
+      .modal-panel { max-height: 100dvh; min-height: 100dvh; border: 0; }
+      .footer { flex-direction: column; }
+    }
+    @media (max-width: 520px) {
+      .hero-side { grid-template-columns: 1fr; }
+      .disciplines { display: none; }
+      .section-heading { align-items: end; }
+      .section-heading p { max-width: 12ch; text-align: right; }
+      .work-info { grid-template-columns: 48px 1fr; }
+      .work-title { font-size: 34px; }
+      .services { grid-template-columns: 1fr; }
+      .contact-title { font-size: 52px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+      #particles { display: none; }
+    }
+  </style>
 </head>
 <body>
-    <script>
-        window.location.replace('index_react.html');
-    </script>
-
-    <div id="cursor" class="fixed w-4 h-4 bg-white rounded-full pointer-events-none z-[999] mix-blend-difference transition-transform duration-100 ease-out hidden md:block"></div>
-
-    <!-- 增强毛玻璃效果的顶栏 -->
-    <nav id="main-nav" class="fixed w-full p-6 md:p-8 flex justify-between items-center z-50 flex-nowrap">
-        <div class="brand-name font-bold text-sm md:text-xl tracking-tighter uppercase flex-1 min-w-0">
-            <span>Waylon</span><br class="md:hidden"><span> / Design.</span>
-        </div>
-        <div class="flex gap-4 md:gap-8 text-[10px] md:text-xs uppercase tracking-widest font-bold items-center ml-auto shrink-0">
-            <a href="#work" class="hover:opacity-50 transition">Work</a>
-            <a href="#about" class="hover:opacity-50 transition">About</a>
-            <a href="#contact" class="hover:opacity-50 transition">Contact</a>
-            <button id="theme-toggle" class="ml-2 md:ml-4 w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-500 transition" aria-label="Toggle theme">
-                <span id="theme-icon" class="inline-block w-4 h-4 md:w-5 md:h-5"></span>
-            </button>
-        </div>
-    </nav>
-
-    <section class="min-h-screen flex flex-col justify-end px-6 md:px-8 pb-32">
-        <h1 class="hero-title text-[14vw] md:text-[12vw] font-black mb-10">
-            GRAPHIC<br>DESIGNER
-        </h1>
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
-            <p class="max-w-md text-gray-400 text-sm md:text-base leading-relaxed zh-content md:pl-2">
-                专注发布会、车展及各类商业会展的视觉设计。<br class="hidden md:block">
-                致力于将空间叙事与视觉逻辑深度融合，通过精准的设计语言<br class="hidden md:block">
-                为每一场活动创造无可替代的感官体验。
-            </p>
-            <div class="text-left md:text-right">
-                <span class="block text-lg md:text-4xl font-light">2016 - 2026</span>
-                <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Selected Projects Portfolio</span>
-            </div>
-        </div>
-        </section>
-
-    <section id="work" class="px-6 md:px-8 py-20 md:py-32 space-y-24">
-        
-        <!-- 作品 1 (路特斯赛道挑战日) -->
-        <div class="work-item reveal group border-b border-zinc-800 pb-16 overflow-hidden" id="project1">
-            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm cursor-pointer img-placeholder" onclick="toggleProject('project1')">
-                <img src="assets/project1/cover.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Lotus Track Day" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000'">
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">01</div>
-            </div>
-            
-            <div class="mt-8 flex justify-between items-start gap-4">
-                <div class="flex-1">
-                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight flex flex-wrap items-baseline gap-2 md:gap-4">
-                        LOTUS TRACK DAY
-                        <span class="text-xs md:text-sm text-zinc-600 font-medium tracking-normal">路特斯赛道挑战日</span>
-                    </h3>
-                    <p class="text-zinc-500 mt-2 italic text-[10px] md:text-xs uppercase tracking-[0.2em]">Motorsports / Track Event / 2021</p>
-                </div>
-                <button onclick="toggleProject('project1')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest shrink-0">
-                    <span class="view-btn-text"></span>
-                </button>
-            </div>
-
-            <!-- 详情区域：点击后才显示所有简介和参数 -->
-            <div class="project-details">
-                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
-                    <div class="space-y-6">
-                        <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
-                        <p class="text-lg md:text-2xl font-light leading-relaxed zh-content">
-                            为“路特斯赛道挑战日”打造全感官视觉方案。设计灵感源自空气动力学曲线与极致的赛道线条，通过强对比的色彩组合与极具动感的版式设计，传递品牌核心精神。视觉覆盖从Pit房改造到赛道围挡，确保在极速环境下依然具备极强的视觉冲击力。
-                        </p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-widest text-zinc-400 pt-2">
-                        <div class="border-l border-zinc-700 pl-4">
-                            <p class="text-white mb-2 font-bold">Role</p>
-                            <p>Visual Identity / Environmental</p>
-                        </div>
-                        <div class="border-l border-zinc-700 pl-4">
-                            <p class="text-white mb-2 font-bold">Concept</p>
-                            <p>Aerodynamics & Speed</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="details-grid space-y-8 md:space-y-16">
-                    <img src="assets/project1/detail1.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Lotus Detail 1" onerror="this.style.display='none'">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                        <img src="assets/project1/detail2.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Lotus Detail 2" onerror="this.style.display='none'">
-                        <img src="assets/project1/detail3.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Lotus Detail 3" onerror="this.style.display='none'">
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 作品 2 (沃尔沃C40发布会) -->
-        <div class="work-item reveal group border-b border-zinc-800 pb-16 overflow-hidden" id="project2">
-            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm cursor-pointer img-placeholder" onclick="toggleProject('project2')">
-                <img src="assets/project2/cover.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Volvo C40" onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2000'">
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">02</div>
-            </div>
-            
-            <div class="mt-8 flex justify-between items-start gap-4">
-                <div class="flex-1">
-                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight flex flex-wrap items-baseline gap-2 md:gap-4">
-                        VOLVO C40 PRESS LAUNCH
-                        <span class="text-xs md:text-sm text-zinc-600 font-medium tracking-normal">沃尔沃C40媒体新闻发布会</span>
-                    </h3>
-                    <p class="text-zinc-500 mt-2 italic text-[10px] md:text-xs uppercase tracking-[0.2em]">Product Launch / Press Event / 2021</p>
-                </div>
-                <button onclick="toggleProject('project2')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest shrink-0">
-                    <span class="view-btn-text"></span>
-                </button>
-            </div>
-
-            <div class="project-details">
-                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
-                <!-- 展开后才显示简介和参数 -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
-                    <div class="space-y-6">
-                        <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
-                        <p class="text-lg md:text-2xl font-light leading-relaxed zh-content">
-                            为沃尔沃首款纯电轿跑SUV C40打造新闻发布会视觉系统。围绕“极光”与“北欧峡湾”的自然美学，利用光影变幻模拟北欧自然景观，强调品牌的可持续发展理念与纯电身份。整体设计遵循极致的极简主义风格，营造出静谧而充满力量的活动氛围。
-                        </p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-widest text-zinc-400 pt-2">
-                        <div class="border-l border-zinc-700 pl-4">
-                            <p class="text-white mb-2 font-bold">Role</p>
-                            <p>Art Direction / Stage Visuals</p>
-                        </div>
-                        <div class="border-l border-zinc-700 pl-4">
-                            <p class="text-white mb-2 font-bold">Core</p>
-                            <p>Scandinavian Sustainability</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 5张图调整为 1+1+1+2 布局 -->
-                <div class="details-grid space-y-8 md:space-y-16">
-                    <!-- 第一张：全宽 -->
-                    <img src="assets/project2/detail1.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 1" onerror="this.style.display='none'">
-                    <!-- 第二张：全宽 -->
-                    <img src="assets/project2/detail2.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 2" onerror="this.style.display='none'">
-                    <!-- 第三张：全宽 -->
-                    <img src="assets/project2/detail3.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 3" onerror="this.style.display='none'">
-                    <!-- 第四、五张：并排 -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                        <img src="assets/project2/detail4.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 4" onerror="this.style.display='none'">
-                        <img src="assets/project2/detail5.jpg" class="w-full h-auto grayscale hover:grayscale-0 transition duration-700" alt="Volvo Detail 5" onerror="this.style.display='none'">
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 作品 3 (沃尔沃新款XC60上市发布会) 放在 C40 下面 -->
-        <div class="work-item reveal group border-b border-zinc-800 pb-16 overflow-hidden" id="project3">
-            <div class="relative aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-sm cursor-pointer img-placeholder" onclick="toggleProject('project3')">
-                <img src="assets/project3/cover.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" alt="Volvo XC60 Launch" onerror="this.src='https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000'">
-                <div class="absolute bottom-4 right-4 md:bottom-6 md:right-6 text-[10px] bg-white text-black px-2 py-1 font-bold tracking-widest">03</div>
-            </div>
-            
-            <div class="mt-8 flex justify-between items-start gap-4">
-                <div class="flex-1">
-                    <h3 class="text-2xl md:text-4xl font-bold uppercase tracking-tight flex flex-wrap items-baseline gap-2 md:gap-4">
-                        VOLVO XC60 LAUNCH EVENT
-                        <span class="text-xs md:text-sm text-zinc-600 font-medium tracking-normal">沃尔沃新款XC60上市发布会</span>
-                    </h3>
-                    <p class="text-zinc-500 mt-2 italic text-[10px] md:text-xs uppercase tracking-[0.2em]">Product Launch / Release Event / 2021</p>
-                </div>
-                <button onclick="toggleProject('project3')" class="text-[10px] md:text-xs border-b border-white pb-1 hover:text-gray-400 hover:border-gray-400 transition font-bold uppercase tracking-widest shrink-0">
-                    <span class="view-btn-text"></span>
-                </button>
-            </div>
-
-            <div class="project-details">
-                <div class="mt-12 px-4 md:px-12 py-12 md:py-24 border-t border-zinc-900">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 items-start">
-                        <div class="space-y-6">
-                            <h4 class="text-[10px] uppercase text-zinc-500 tracking-[0.3em] font-bold">Project Brief</h4>
-                            <p class="text-lg md:text-2xl font-light leading-relaxed zh-content">
-                                为沃尔沃新款 XC60 上市发布会构建整体视觉系统，通过极简的北欧设计语言结合光影与材质的克制表达，突出产品的安全、科技与质感。场景化叙事串联舞台视觉与品牌核心信息，确保不同环节在节奏与符号上保持一致。
-                            </p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-8 text-[10px] uppercase tracking-widest text-zinc-400 pt-2">
-                            <div class="border-l border-zinc-700 pl-4">
-                                <p class="text-white mb-2 font-bold">Role</p>
-                                <p>Art Direction / Stage Visuals</p>
-                            </div>
-                            <div class="border-l border-zinc-700 pl-4">
-                                <p class="text-white mb-2 font-bold">Core</p>
-                                <p>Scandinavian Precision</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="details-grid space-y-8 md:space-y-16">
-                        <img src="assets/project3/detail1.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 1" onerror="this.style.display='none'">
-                        <img src="assets/project3/detail2.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 2" onerror="this.style.display='none'">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                            <img src="assets/project3/detail3.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 3" onerror="this.style.display='none'">
-                            <img src="assets/project3/detail4.jpg" class="w-full h-auto transition duration-700" alt="XC60 Detail 4" onerror="this.style.display='none'">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="project-modal">
-        <div class="backdrop" onclick="closeModal()"></div>
-        <div class="panel">
-            <button class="close-btn" onclick="closeModal()">Close</button>
-            <div class="panel-inner" id="project-modal-content"></div>
-        </div>
+  <a class="skip-link" href="#work">跳到作品</a>
+  <nav class="site-nav" aria-label="主导航">
+    <div class="nav-inner page">
+      <a class="brand" href="#home" aria-label="Waylon 首页">Waylon<span>.</span></a>
+      <div class="nav-links">
+        <a href="#home">Home</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a>
+      </div>
     </div>
+  </nav>
 
-    <section id="about" class="px-6 md:px-8 py-24 md:py-48">
-        <div class="max-w-5xl reveal">
-            <h2 class="text-[10px] text-zinc-500 uppercase tracking-[0.3em] mb-12 font-bold">Artist Statement</h2>
-            <p class="text-2xl md:text-5xl font-light leading-[1.4] zh-content">
-                在瞬息万变的线下活动中，我追求<br class="hidden md:block">
-                <span class="font-bold underline underline-offset-8 decoration-1">视觉冲击力与执行精度的平衡</span>。<br class="hidden md:block">
-                擅长从全局角度出发，为商业发布会提供从概念到落地的全案视觉支持。
-            </p>
+  <main>
+    <section class="hero" id="home">
+      <canvas id="particles" aria-hidden="true"></canvas><div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-grid page">
+        <div><p class="hero-kicker">Visual Designer based in China</p><h1>Waylon<span>Visual Designer</span></h1></div>
+        <div class="hero-side">
+          <p>Shaping automotive brands through image, space and motion.</p>
+          <ul class="disciplines"><li><b>Automotive</b><span>Branding</span></li><li><b>Campaign</b><span>Visual</span></li><li><b>AI</b><span>Exploration</span></li></ul>
         </div>
+      </div>
     </section>
 
-    <section id="contact" class="px-6 md:px-8 py-24 md:py-48 border-t border-zinc-800">
-        <h2 class="text-5xl md:text-8xl font-black uppercase mb-16 hero-title">Let's Connect</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
-            <div>
-                <span class="text-[10px] text-zinc-500 uppercase block mb-6 font-bold tracking-widest">Email</span>
-                <a href="mailto:wwgmmmm@gmail.com" class="text-xl md:text-2xl hover:line-through break-all font-bold uppercase">WWGMMMM@GMAIL.COM</a>
-            </div>
-            <div>
-                <span class="text-[10px] text-zinc-500 uppercase block mb-6 font-bold tracking-widest">WeChat / Phone</span>
-                <span class="text-xl md:text-2xl block font-bold uppercase leading-none tracking-tighter">131 3808 8381</span>
-            </div>
-            <div>
-                <span class="text-[10px] text-zinc-500 uppercase block mb-6 font-bold tracking-widest">Social Network</span>
-                <div class="flex flex-col gap-4">
-                    <a href="#" class="text-sm hover:underline tracking-widest uppercase font-bold">Behance</a>
-                    <a href="#" class="text-sm hover:underline tracking-widest uppercase font-bold">Dribbble</a>
-                    <a href="#" class="text-sm hover:underline tracking-widest uppercase font-bold">Instagram</a>
-                </div>
-            </div>
-        </div>
+    <section class="section page" id="work">
+      <div class="section-heading reveal"><h2>Selected Works</h2><p>2021 - 2026</p></div>
+      <div class="work-list" id="work-list"></div>
     </section>
 
-    <footer class="p-8 text-[9px] md:text-[10px] text-zinc-600 uppercase flex flex-col md:flex-row justify-between items-center gap-4 tracking-tighter border-t border-zinc-900">
-        <span>&copy; 2021 - 2026 Waylon Graphic Design Studio</span>
-        <span class="opacity-50 tracking-[0.2em]">Curated with Precision & AI</span>
-    </footer>
+    <section class="section about" id="about"><div class="about-grid page reveal"><div class="about-mark">W.</div><div class="about-copy"><h2>Designing visual presence for brands in motion.</h2><p>Waylon is a visual designer based in China.</p><p>Focused on automotive branding, campaign visuals and brand experiences.</p><div class="services"><span>Art Direction</span><span>Automotive Branding</span><span>Campaign Visual</span><span>Launch Experience</span><span>Brand Identity</span><span>Visual Systems</span></div></div></div></section>
 
-    <script>
-        // 导航栏滚动效果：监听位移
-        const nav = document.getElementById('main-nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 30) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-        function renderThemeIcon(theme) {
-            const icon = document.getElementById('theme-icon');
-            if (!icon) return;
-            if (theme === 'light') {
-                icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5" stroke-width="2"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke-width="2" stroke-linecap="round"/></svg>';
-            } else {
-                icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-            }
-        }
-        function applyTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            renderThemeIcon(theme);
-        }
-        function getInitialTheme() {
-            const saved = localStorage.getItem('theme');
-            if (saved) return saved;
-            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-            return prefersLight ? 'light' : 'dark';
-        }
-        const initialTheme = getInitialTheme();
-        applyTheme(initialTheme);
-        const toggleBtn = document.getElementById('theme-toggle');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                const current = document.documentElement.getAttribute('data-theme') || 'dark';
-                const next = current === 'dark' ? 'light' : 'dark';
-                applyTheme(next);
-            });
-        }
+    <section class="section contact page" id="contact"><p class="hero-kicker">Available for selected collaborations</p><h2 class="contact-title">Have a project in mind? <a href="mailto:wwgmmmm@gmail.com">Let's talk.</a></h2></section>
+  </main>
 
-        function toggleProject(id) {
-            const item = document.getElementById(id);
-            const details = item ? item.querySelector('.project-details') : null;
-            const modal = document.getElementById('project-modal');
-            const content = document.getElementById('project-modal-content');
-            if (!details || !modal || !content) return;
-            content.innerHTML = details.innerHTML;
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
+  <footer class="footer page"><span>Waylon Visual Design Studio</span><span>China · <span id="year"></span></span></footer>
 
-        function closeModal() {
-            const modal = document.getElementById('project-modal');
-            const content = document.getElementById('project-modal-content');
-            if (!modal) return;
-            modal.classList.remove('show');
-            document.body.style.overflow = '';
-            if (content) content.innerHTML = '';
-        }
+  <div class="modal" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-panel"><div class="modal-head"><h3 id="modal-title"></h3><button class="close-button" type="button" aria-label="关闭项目详情">×</button></div><div class="modal-body"><div class="modal-lead"><p id="modal-description"></p><div class="modal-meta" id="modal-meta"></div></div><div class="gallery" id="modal-gallery"></div></div></div>
+  </div>
 
-        // 视口观察者：滚动出现动画
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.15 });
+  <script>
+    const projects = {
+      "volvo-em90": { index: "01", title: "VOLVO-EM90", year: "Recent", service: "Media Experience", description: "Automotive campaign key visual and media experience design.", cover: "assets/works/01-volvo-em90/cover.jpg", images: ["assets/works/01-volvo-em90/cover.jpg"] },
+      "volvo-ex30": { index: "02", title: "VOLVO-EX30", year: "Recent", service: "Brand Activation", description: "Automotive campaign key visual and regional brand activation design.", cover: "assets/works/02-volvo-ex30/cover.jpg", images: ["assets/works/02-volvo-ex30/cover.jpg"] },
+      tedatong: { index: "03", title: "TEDATONG", year: "Recent", service: "Brand Visual", description: "Brand campaign visual shaped through landscape, scale and restrained typography.", cover: "assets/works/03-tedatong/cover.jpg", images: ["assets/works/03-tedatong/cover.jpg"] },
+      "volvo-s90": { index: "04", title: "VOLVO-S90", year: "2025", service: "Launch Event", description: "Launch event visual design balancing modern luxury, product presence and spatial atmosphere.", cover: "assets/works/04-volvo-s90/cover.jpg", images: ["assets/works/04-volvo-s90/cover.jpg"] },
+      "jietu-zongheng": { index: "05", title: "捷途纵横", year: "Recent", service: "Product Launch", description: "Product launch visual built around exploration, altitude and forward motion.", cover: "assets/works/05-jietu-zongheng/cover.jpg", images: ["assets/works/05-jietu-zongheng/cover.jpg"] },
+      mclaren: { index: "06", title: "MCLAREN", year: "2025", service: "Brand Rally", description: "A high-energy brand rally system extending from the campaign key visual to the roadbook experience.", cover: "assets/works/06-mclaren/cover.jpg", images: ["assets/works/06-mclaren/cover.jpg", "assets/works/06-mclaren/detail-01.jpg", "assets/works/06-mclaren/detail-02.jpg"] },
+      voyah: { index: "07", title: "岚图", year: "Recent", service: "Brand Event", description: "Brand event key visual expressing shared direction, progress and collective momentum.", cover: "assets/works/07-voyah/cover.jpg", images: ["assets/works/07-voyah/cover.jpg"] },
+      "avater-07l": { index: "08", title: "AVATER 07L", year: "2026", service: "Media Experience", description: "Media experience visual connecting premium mobility with an open, future-facing journey.", cover: "assets/works/08-avater-07l/cover.jpg", images: ["assets/works/08-avater-07l/cover.jpg"] },
+      "lynk-10th": { index: "09", title: "领克十周年", year: "Recent", service: "Anniversary Visual System", description: "A complete anniversary visual language developed across key visuals, spatial screens and campaign moments.", cover: "assets/works/09-lynk-10th/cover.jpg", images: ["assets/works/09-lynk-10th/cover.jpg", "assets/works/09-lynk-10th/detail-01.jpg", "assets/works/09-lynk-10th/detail-02.jpg", "assets/works/09-lynk-10th/detail-03.jpg", "assets/works/09-lynk-10th/detail-04.jpg", "assets/works/09-lynk-10th/detail-05.jpg", "assets/works/09-lynk-10th/detail-06.jpg", "assets/works/09-lynk-10th/detail-07.jpg", "assets/works/09-lynk-10th/detail-08.jpg", "assets/works/09-lynk-10th/detail-09.jpg"] },
+      "zeekr-auto-show": { index: "10", title: "ZEEKR车展", year: "2026", service: "Auto Show Visual", description: "Auto show visual identity connecting automotive technology with a gallery-like presentation language.", cover: "assets/works/10-zeekr-auto-show/cover.jpg", images: ["assets/works/10-zeekr-auto-show/cover.jpg"] },
+      "ux-studio-shanghai": { index: "11", title: "UX STUDIO SHANGHAI", year: "Recent", service: "Brand Event", description: "Opening event visual for an automotive user experience research center in Shanghai.", cover: "assets/works/11-ux-studio-shanghai/cover.jpg", images: ["assets/works/11-ux-studio-shanghai/cover.jpg"] }
+    };
+    const workList = document.getElementById("work-list");
+    Object.entries(projects).forEach(([key, project], position) => {
+      const article = document.createElement("article");
+      article.className = "work reveal";
+      article.dataset.project = key;
+      article.innerHTML = `<div class="work-visual"><img src="${project.cover}" alt="${project.title} project preview" loading="${position === 0 ? "eager" : "lazy"}"><span class="work-index">${project.index}</span></div><div class="work-copy"><div><h3 class="work-title">${project.title}</h3><p class="work-type">${project.service}</p></div><div class="work-info"><span class="work-year">${project.year}</span><p class="work-description">${project.description}</p><div class="work-actions"><button class="case-button" type="button">View case</button></div></div></div>`;
+      workList.appendChild(article);
+    });
+    const nav = document.querySelector(".site-nav");
+    const modal = document.getElementById("project-modal");
+    const panel = modal.querySelector(".modal-panel");
+    const title = document.getElementById("modal-title");
+    const description = document.getElementById("modal-description");
+    const meta = document.getElementById("modal-meta");
+    const gallery = document.getElementById("modal-gallery");
+    const closeButton = modal.querySelector(".close-button");
+    let lastTrigger = null;
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    const setNav = () => nav.classList.toggle("scrolled", window.scrollY > 24);
+    setNav();
+    window.addEventListener("scroll", setNav, { passive: true });
 
-        // 鼠标跟随圆点
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); }
+    }), { threshold: .12 });
+    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
 
-        // 锚点平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
+    function openProject(key, trigger) {
+      const project = projects[key];
+      if (!project) return;
+      lastTrigger = trigger;
+      title.textContent = project.title;
+      description.textContent = project.description;
+      meta.innerHTML = `<div><b>Year</b>${project.year}</div><div><b>Services</b>${project.service}</div>`;
+      gallery.replaceChildren(...project.images.map((src, index) => {
+        const image = document.createElement("img");
+        image.src = src; image.alt = `${project.title} project detail ${index + 1}`; image.loading = "lazy";
+        return image;
+      }));
+      modal.hidden = false; modal.classList.add("open"); document.body.classList.add("modal-open");
+      panel.scrollTop = 0; closeButton.focus();
+    }
+    function closeProject() {
+      modal.classList.remove("open"); modal.hidden = true; document.body.classList.remove("modal-open");
+      gallery.replaceChildren(); if (lastTrigger) lastTrigger.focus();
+    }
+    document.querySelectorAll(".work").forEach((work) => work.querySelector(".case-button").addEventListener("click", (event) => openProject(work.dataset.project, event.currentTarget)));
+    closeButton.addEventListener("click", closeProject);
+    modal.addEventListener("click", (event) => { if (event.target === modal) closeProject(); });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !modal.hidden) closeProject(); });
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let dots = [], animationFrame;
+    function resizeCanvas() {
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = innerWidth * ratio; canvas.height = innerHeight * ratio;
+      canvas.style.width = `${innerWidth}px`; canvas.style.height = `${innerHeight}px`; ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      dots = Array.from({ length: Math.min(80, Math.floor(innerWidth / 18)) }, () => ({ x: Math.random() * innerWidth, y: Math.random() * innerHeight, r: Math.random() * 1.2 + .25, v: Math.random() * .18 + .04 }));
+    }
+    function drawParticles() {
+      ctx.clearRect(0, 0, innerWidth, innerHeight); ctx.fillStyle = "rgba(243,243,239,.62)";
+      dots.forEach((dot) => { dot.y -= dot.v; if (dot.y < -3) dot.y = innerHeight + 3; ctx.beginPath(); ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2); ctx.fill(); });
+      animationFrame = requestAnimationFrame(drawParticles);
+    }
+    if (!reducedMotion) { resizeCanvas(); drawParticles(); window.addEventListener("resize", resizeCanvas); }
+    window.addEventListener("pagehide", () => cancelAnimationFrame(animationFrame), { once: true });
+  </script>
 </body>
 </html>

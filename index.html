@@ -202,7 +202,7 @@
   </div>
 
   <div class="modal" id="wechat-modal" role="dialog" aria-modal="true" aria-labelledby="wechat-title" hidden>
-    <div class="modal-panel wechat-panel"><div class="modal-head"><h3 id="wechat-title">WeChat</h3><button class="close-button" type="button" aria-label="关闭微信二维码">×</button></div><div class="wechat-body"><img src="assets/contact/waylon-wechat-qr.png" alt="Waylon 微信二维码" width="953" height="953"><p>长按二维码识别并添加微信</p></div></div>
+    <div class="modal-panel wechat-panel"><div class="modal-head"><h3 id="wechat-title">WeChat</h3><button class="close-button" type="button" aria-label="关闭微信二维码">×</button></div><div class="wechat-body"><img data-src="assets/contact/waylon-wechat-qr.png" alt="Waylon 微信二维码" width="953" height="953"><p>长按二维码识别并添加微信</p></div></div>
   </div>
 
   <script>
@@ -222,12 +222,13 @@
       "volvo-c40": { index: "13", title: "VOLVO C40", year: "2021", service: "Product Launch", description: "A launch event visual system connecting pure electric mobility with Scandinavian clarity and atmospheric light.", cover: "assets/project2/cover.webp", images: ["assets/project2/cover.webp", "assets/project2/detail1.webp", "assets/project2/detail2.webp", "assets/project2/detail3.webp", "assets/project2/detail4.webp", "assets/project2/detail5.webp"] },
       "volvo-xc60": { index: "14", title: "VOLVO XC60", year: "2021", service: "Launch Event", description: "A restrained launch experience highlighting safety, technology and premium material expression.", cover: "assets/project3/cover.webp", images: ["assets/project3/cover.webp", "assets/project3/detail1.webp", "assets/project3/detail2.webp", "assets/project3/detail3.webp", "assets/project3/detail4.webp"] }
     };
+    const mobileImagePath = (path) => path.replace(/\.webp$/, "-mobile.webp");
     const workList = document.getElementById("work-list");
     Object.entries(projects).forEach(([key, project], position) => {
       const article = document.createElement("article");
       article.className = "work reveal";
       article.dataset.project = key;
-      article.innerHTML = `<div class="work-visual"><img src="${project.cover}" alt="${project.title} project preview" loading="${position === 0 ? "eager" : "lazy"}"></div><div class="work-copy"><div><span class="work-index">${project.index}</span><h3 class="work-title">${project.title}</h3><p class="work-type">${project.service}</p></div><div class="work-info"><span class="work-year">${project.year}</span><p class="work-description">${project.description}</p><div class="work-actions"><button class="case-button" type="button">View case</button></div></div></div>`;
+      article.innerHTML = `<div class="work-visual"><img src="${project.cover}" srcset="${mobileImagePath(project.cover)} 1200w, ${project.cover} 2400w" sizes="(max-width: 800px) calc(100vw - 32px), 90vw" alt="${project.title} project preview" loading="${position === 0 ? "eager" : "lazy"}" decoding="async"></div><div class="work-copy"><div><span class="work-index">${project.index}</span><h3 class="work-title">${project.title}</h3><p class="work-type">${project.service}</p></div><div class="work-info"><span class="work-year">${project.year}</span><p class="work-description">${project.description}</p><div class="work-actions"><button class="case-button" type="button">View case</button></div></div></div>`;
       workList.appendChild(article);
     });
     const nav = document.querySelector(".site-nav");
@@ -261,7 +262,8 @@
       meta.innerHTML = `<div><b>Year</b>${project.year}</div><div><b>Services</b>${project.service}</div>`;
       gallery.replaceChildren(...project.images.map((src, index) => {
         const image = document.createElement("img");
-        image.src = src; image.alt = `${project.title} project detail ${index + 1}`; image.loading = "lazy";
+        image.src = src; image.srcset = `${mobileImagePath(src)} 1200w, ${src} 2400w`; image.sizes = "(max-width: 800px) calc(100vw - 40px), 1000px";
+        image.alt = `${project.title} project detail ${index + 1}`; image.loading = "lazy"; image.decoding = "async";
         return image;
       }));
       modal.hidden = false; modal.classList.add("open"); document.body.classList.add("modal-open");
@@ -272,6 +274,8 @@
       gallery.replaceChildren(); if (lastTrigger) lastTrigger.focus();
     }
     function openWechat() {
+      const qrImage = wechatModal.querySelector("img[data-src]");
+      if (qrImage && !qrImage.hasAttribute("src")) qrImage.src = qrImage.dataset.src;
       wechatModal.hidden = false; wechatModal.classList.add("open"); document.body.classList.add("modal-open");
       wechatClose.focus();
     }

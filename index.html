@@ -102,8 +102,8 @@
     .services span { padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; text-transform: uppercase; }
     .contact { padding-bottom: 48px; }
     .contact-title { margin: 0; max-width: 12ch; font-size: clamp(52px, 9vw, 140px); font-weight: 800; line-height: .86; text-transform: uppercase; }
-    .contact-title a { display: inline-block; color: var(--accent); border-bottom: .07em solid var(--accent); }
-    .contact-title a:hover { color: var(--text); border-color: var(--text); }
+    .contact-title a, .wechat-trigger { display: inline-block; padding: 0; color: var(--accent); background: transparent; border: 0; border-bottom: .07em solid var(--accent); border-radius: 0; font: inherit; line-height: inherit; text-transform: inherit; cursor: pointer; }
+    .contact-title a:hover, .wechat-trigger:hover { color: var(--text); border-color: var(--text); }
     .footer { display: flex; justify-content: space-between; gap: 20px; padding: 22px 0 28px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; text-transform: uppercase; }
     .modal { position: fixed; inset: 0; z-index: 90; display: none; background: rgba(0,0,0,.82); backdrop-filter: blur(10px); padding: 24px; }
     .modal.open { display: grid; place-items: center; }
@@ -118,6 +118,10 @@
     .modal-meta b { display: block; margin-bottom: 3px; color: var(--text); }
     .gallery { display: grid; gap: 20px; }
     .gallery img { width: 100%; height: auto; background: var(--panel); }
+    .wechat-panel { width: min(480px, 100%); }
+    .wechat-body { padding: clamp(22px, 5vw, 42px); text-align: center; }
+    .wechat-body img { width: 100%; height: auto; background: #fff; -webkit-touch-callout: default; user-select: auto; }
+    .wechat-body p { margin: 18px 0 0; color: var(--muted); font-size: 13px; }
     .reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
     .reveal.visible { opacity: 1; transform: none; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
@@ -188,7 +192,7 @@
 
     <section class="section about" id="about"><div class="about-grid page reveal"><div class="about-mark">W.</div><div class="about-copy"><h2>Designing visual presence for brands in motion.</h2><p>Waylon is a visual designer based in China.</p><p>Focused on automotive branding, campaign visuals and brand experiences.</p><div class="services"><span>Art Direction</span><span>Automotive Branding</span><span>Campaign Visual</span><span>Launch Experience</span><span>Brand Identity</span><span>Visual Systems</span></div></div></div></section>
 
-    <section class="section contact page" id="contact"><p class="hero-kicker">Available for selected collaborations</p><h2 class="contact-title">Have a project in mind? <a href="mailto:wwgmmmm@gmail.com">Let's talk.</a></h2></section>
+    <section class="section contact page" id="contact"><p class="hero-kicker">Available for selected collaborations</p><h2 class="contact-title">Have a project in mind? <a href="mailto:wwgmmmm@gmail.com">Email</a> or <button class="wechat-trigger" id="wechat-trigger" type="button">WeChat</button>.</h2></section>
   </main>
 
   <footer class="footer page"><span>Waylon Visual Design Studio</span><span>China · <span id="year"></span></span></footer>
@@ -197,19 +201,23 @@
     <div class="modal-panel"><div class="modal-head"><h3 id="modal-title"></h3><button class="close-button" type="button" aria-label="关闭项目详情">×</button></div><div class="modal-body"><div class="modal-lead"><p id="modal-description"></p><div class="modal-meta" id="modal-meta"></div></div><div class="gallery" id="modal-gallery"></div></div></div>
   </div>
 
+  <div class="modal" id="wechat-modal" role="dialog" aria-modal="true" aria-labelledby="wechat-title" hidden>
+    <div class="modal-panel wechat-panel"><div class="modal-head"><h3 id="wechat-title">WeChat</h3><button class="close-button" type="button" aria-label="关闭微信二维码">×</button></div><div class="wechat-body"><img src="assets/contact/waylon-wechat-qr.png" alt="Waylon 微信二维码" width="953" height="953"><p>长按二维码识别并添加微信</p></div></div>
+  </div>
+
   <script>
     const projects = {
-      "volvo-em90": { index: "01", title: "VOLVO-EM90", year: "Recent", service: "Media Experience", description: "Automotive campaign key visual and media experience design.", cover: "assets/works/01-volvo-em90/cover.jpg", images: ["assets/works/01-volvo-em90/cover.jpg"] },
-      "volvo-ex30": { index: "02", title: "VOLVO-EX30", year: "Recent", service: "Brand Activation", description: "Automotive campaign key visual and regional brand activation design.", cover: "assets/works/02-volvo-ex30/cover.jpg", images: ["assets/works/02-volvo-ex30/cover.jpg"] },
-      tedatong: { index: "03", title: "TEDATONG", year: "Recent", service: "Brand Visual", description: "Brand campaign visual shaped through landscape, scale and restrained typography.", cover: "assets/works/03-tedatong/cover.jpg", images: ["assets/works/03-tedatong/cover.jpg"] },
-      "volvo-s90": { index: "04", title: "VOLVO-S90", year: "2025", service: "Launch Event", description: "Launch event visual design balancing modern luxury, product presence and spatial atmosphere.", cover: "assets/works/04-volvo-s90/cover.jpg", images: ["assets/works/04-volvo-s90/cover.jpg"] },
-      "jietu-zongheng": { index: "05", title: "捷途纵横", year: "Recent", service: "Product Launch", description: "Product launch visual built around exploration, altitude and forward motion.", cover: "assets/works/05-jietu-zongheng/cover.jpg", images: ["assets/works/05-jietu-zongheng/cover.jpg"] },
-      mclaren: { index: "06", title: "MCLAREN", year: "2025", service: "Brand Rally", description: "A high-energy brand rally system extending from the campaign key visual to the roadbook experience.", cover: "assets/works/06-mclaren/cover.jpg", images: ["assets/works/06-mclaren/cover.jpg", "assets/works/06-mclaren/detail-01.jpg", "assets/works/06-mclaren/detail-02.jpg"] },
-      voyah: { index: "07", title: "岚图", year: "Recent", service: "Brand Event", description: "Brand event key visual expressing shared direction, progress and collective momentum.", cover: "assets/works/07-voyah/cover.jpg", images: ["assets/works/07-voyah/cover.jpg"] },
-      "avater-07l": { index: "08", title: "AVATER 07L", year: "2026", service: "Media Experience", description: "Media experience visual connecting premium mobility with an open, future-facing journey.", cover: "assets/works/08-avater-07l/cover.jpg", images: ["assets/works/08-avater-07l/cover.jpg"] },
-      "lynk-10th": { index: "09", title: "领克十周年", year: "Recent", service: "Anniversary Visual System", description: "A complete anniversary visual language developed across key visuals, spatial screens and campaign moments.", cover: "assets/works/09-lynk-10th/cover.jpg", images: ["assets/works/09-lynk-10th/cover.jpg", "assets/works/09-lynk-10th/detail-01.jpg", "assets/works/09-lynk-10th/detail-02.jpg", "assets/works/09-lynk-10th/detail-03.jpg", "assets/works/09-lynk-10th/detail-04.jpg", "assets/works/09-lynk-10th/detail-05.jpg", "assets/works/09-lynk-10th/detail-06.jpg", "assets/works/09-lynk-10th/detail-07.jpg", "assets/works/09-lynk-10th/detail-08.jpg", "assets/works/09-lynk-10th/detail-09.jpg"] },
-      "zeekr-auto-show": { index: "10", title: "ZEEKR车展", year: "2026", service: "Auto Show Visual", description: "Auto show visual identity connecting automotive technology with a gallery-like presentation language.", cover: "assets/works/10-zeekr-auto-show/cover.jpg", images: ["assets/works/10-zeekr-auto-show/cover.jpg"] },
-      "ux-studio-shanghai": { index: "11", title: "UX STUDIO SHANGHAI", year: "Recent", service: "Brand Event", description: "Opening event visual for an automotive user experience research center in Shanghai.", cover: "assets/works/11-ux-studio-shanghai/cover.jpg", images: ["assets/works/11-ux-studio-shanghai/cover.jpg"] }
+      "volvo-em90": { index: "01", title: "VOLVO-EM90", year: "Recent", service: "Media Experience", description: "Automotive campaign key visual and media experience design.", cover: "assets/works/01-volvo-em90/cover.webp", images: ["assets/works/01-volvo-em90/cover.webp"] },
+      "volvo-ex30": { index: "02", title: "VOLVO-EX30", year: "Recent", service: "Brand Activation", description: "Automotive campaign key visual and regional brand activation design.", cover: "assets/works/02-volvo-ex30/cover.webp", images: ["assets/works/02-volvo-ex30/cover.webp"] },
+      tedatong: { index: "03", title: "TEDATONG", year: "Recent", service: "Brand Visual", description: "Brand campaign visual shaped through landscape, scale and restrained typography.", cover: "assets/works/03-tedatong/cover.webp", images: ["assets/works/03-tedatong/cover.webp"] },
+      "volvo-s90": { index: "04", title: "VOLVO-S90", year: "2025", service: "Launch Event", description: "Launch event visual design balancing modern luxury, product presence and spatial atmosphere.", cover: "assets/works/04-volvo-s90/cover.webp", images: ["assets/works/04-volvo-s90/cover.webp"] },
+      "jietu-zongheng": { index: "05", title: "ZONGHENG G700", year: "Recent", service: "Product Launch", description: "Product launch visual built around exploration, altitude and forward motion.", cover: "assets/works/05-jietu-zongheng/cover.webp", images: ["assets/works/05-jietu-zongheng/cover.webp"] },
+      mclaren: { index: "06", title: "MCLAREN", year: "2025", service: "Brand Rally", description: "A high-energy brand rally system extending from the campaign key visual to the roadbook experience.", cover: "assets/works/06-mclaren/cover.webp", images: ["assets/works/06-mclaren/cover.webp", "assets/works/06-mclaren/detail-01.webp", "assets/works/06-mclaren/detail-02.webp"] },
+      voyah: { index: "07", title: "VOYAH", year: "Recent", service: "Brand Event", description: "Brand event key visual expressing shared direction, progress and collective momentum.", cover: "assets/works/07-voyah/cover.webp", images: ["assets/works/07-voyah/cover.webp"] },
+      "avater-07l": { index: "08", title: "AVATER 07L", year: "2026", service: "Media Experience", description: "Media experience visual connecting premium mobility with an open, future-facing journey.", cover: "assets/works/08-avater-07l/cover.webp", images: ["assets/works/08-avater-07l/cover.webp"] },
+      "lynk-10th": { index: "09", title: "LYNK&CO 10TH ANNIVERSARY", year: "Recent", service: "Anniversary Visual System", description: "A complete anniversary visual language developed across key visuals, spatial screens and campaign moments.", cover: "assets/works/09-lynk-10th/cover.webp", images: ["assets/works/09-lynk-10th/cover.webp", "assets/works/09-lynk-10th/detail-01.webp", "assets/works/09-lynk-10th/detail-02.webp", "assets/works/09-lynk-10th/detail-03.webp", "assets/works/09-lynk-10th/detail-04.webp", "assets/works/09-lynk-10th/detail-05.webp", "assets/works/09-lynk-10th/detail-06.webp", "assets/works/09-lynk-10th/detail-07.webp", "assets/works/09-lynk-10th/detail-08.webp", "assets/works/09-lynk-10th/detail-09.webp"] },
+      "zeekr-auto-show": { index: "10", title: "ZEEKR AUTO SHOW", year: "2026", service: "Auto Show Visual", description: "Auto show visual identity connecting automotive technology with a gallery-like presentation language.", cover: "assets/works/10-zeekr-auto-show/cover.webp", images: ["assets/works/10-zeekr-auto-show/cover.webp"] },
+      "ux-studio-shanghai": { index: "11", title: "UX STUDIO SHANGHAI", year: "Recent", service: "Brand Event", description: "Opening event visual for an automotive user experience research center in Shanghai.", cover: "assets/works/11-ux-studio-shanghai/cover.webp", images: ["assets/works/11-ux-studio-shanghai/cover.webp"] }
     };
     const workList = document.getElementById("work-list");
     Object.entries(projects).forEach(([key, project], position) => {
@@ -227,6 +235,9 @@
     const meta = document.getElementById("modal-meta");
     const gallery = document.getElementById("modal-gallery");
     const closeButton = modal.querySelector(".close-button");
+    const wechatTrigger = document.getElementById("wechat-trigger");
+    const wechatModal = document.getElementById("wechat-modal");
+    const wechatClose = wechatModal.querySelector(".close-button");
     let lastTrigger = null;
 
     const setNav = () => nav.classList.toggle("scrolled", window.scrollY > 24);
@@ -257,10 +268,25 @@
       modal.classList.remove("open"); modal.hidden = true; document.body.classList.remove("modal-open");
       gallery.replaceChildren(); if (lastTrigger) lastTrigger.focus();
     }
+    function openWechat() {
+      wechatModal.hidden = false; wechatModal.classList.add("open"); document.body.classList.add("modal-open");
+      wechatClose.focus();
+    }
+    function closeWechat() {
+      wechatModal.classList.remove("open"); wechatModal.hidden = true; document.body.classList.remove("modal-open");
+      wechatTrigger.focus();
+    }
     document.querySelectorAll(".work").forEach((work) => work.querySelector(".case-button").addEventListener("click", (event) => openProject(work.dataset.project, event.currentTarget)));
     closeButton.addEventListener("click", closeProject);
     modal.addEventListener("click", (event) => { if (event.target === modal) closeProject(); });
-    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !modal.hidden) closeProject(); });
+    wechatTrigger.addEventListener("click", openWechat);
+    wechatClose.addEventListener("click", closeWechat);
+    wechatModal.addEventListener("click", (event) => { if (event.target === wechatModal) closeWechat(); });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      if (!modal.hidden) closeProject();
+      if (!wechatModal.hidden) closeWechat();
+    });
     document.getElementById("year").textContent = new Date().getFullYear();
 
     const canvas = document.getElementById("particles");
